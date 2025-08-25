@@ -22,18 +22,18 @@ abstract class RepositoryModule {
         coffeeRepositoryImpl: CoffeeRepositoryImpl
     ): CoffeeRepository
 
-    @Binds
-    abstract fun bindFavoriteRepository(
-        favoriteRepositoryImpl: FavoriteRepositoryImpl
-    ): FavoriteRepository
-
-    @Binds
-    abstract fun bindOrderRepository(
-        orderRepositoryImpl: OrderRepositoryImpl
-    ): OrderRepository
-
-    @Binds
-    abstract fun bindUserRepository(
-        userRepositoryImpl: UserRepositoryImpl
-    ): UserRepository
+//    @Binds
+//    abstract fun bindFavoriteRepository(
+//        favoriteRepositoryImpl: FavoriteRepositoryImpl
+//    ): FavoriteRepository
+//
+//    @Binds
+//    abstract fun bindOrderRepository(
+//        orderRepositoryImpl: OrderRepositoryImpl
+//    ): OrderRepository
+//
+//    @Binds
+//    abstract fun bindUserRepository(
+//        userRepositoryImpl: UserRepositoryImpl
+//    ): UserRepository
 }
