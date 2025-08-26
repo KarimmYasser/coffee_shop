@@ -1,15 +1,19 @@
 package com.example.cofee_shop.data.repositories
 
 import com.example.cofee_shop.core.ApiResult
+import com.example.cofee_shop.data.local.database.dao.CoffeeDao
+import com.example.cofee_shop.data.local.database.entities.CoffeeEntity
 import com.example.cofee_shop.data.mappers.CoffeeMapper
 import com.example.cofee_shop.data.remote.api.CoffeeApiService
 import com.example.cofee_shop.domain.models.Coffee
 import com.example.cofee_shop.domain.repositories.CoffeeRepository
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton
 @Singleton
 class CoffeeRepositoryImpl @Inject constructor(
     private val apiService: CoffeeApiService
+    , private val coffeeDao: CoffeeDao
 ) : CoffeeRepository {
 
     private var cachedHotCoffees: List<Coffee> = emptyList()
@@ -120,5 +124,33 @@ class CoffeeRepositoryImpl @Inject constructor(
         } catch (e: Exception) {
             ApiResult.Failure(e)
         }
+    }
+
+    override fun getDrinksByType(isHot: Boolean): Flow<List<CoffeeEntity>> {
+        return coffeeDao.getDrinksByType(isHot)
+    }
+
+    override fun getAllDrinks(): Flow<List<CoffeeEntity>> {
+        return coffeeDao.getAllDrinks()
+    }
+
+    override suspend fun getDrinkById(drinkId: Int): CoffeeEntity? {
+        return coffeeDao.getDrinkById(drinkId)
+    }
+
+    override fun searchDrinks(query: String): Flow<List<CoffeeEntity>> {
+        return coffeeDao.searchDrinks(query)
+    }
+
+    override suspend fun insertDrinks(drinks: List<CoffeeEntity>) {
+        coffeeDao.insertDrinks(drinks)
+    }
+
+    override suspend fun clearAll() {
+        coffeeDao.clearAll()
+    }
+
+    override suspend fun getCount(): Int {
+        return coffeeDao.getCount()
     }
 }
