@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">cofee_shop</string>
+    <string name="home">Home</string>
+    <string name="drink_menu">Drink Menu</string>
+    <string name="your_order">Your Order</string>
+    <string name="favorites">Favorites</string>
 </resources>
