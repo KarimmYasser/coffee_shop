@@ -1,0 +1,27 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <selector>
+            <item android:state_checked="true">
+                <layer-list>
+                    <item>
+                        <shape android:shape="rectangle">
+                            <solid android:color="@android:color/transparent" />
+                        </shape>
+                    </item>
+                    <!-- Underline indicator -->
+                    <item android:gravity="bottom">
+                        <shape android:shape="rectangle">
+                            <size android:height="3dp" />
+                            <solid android:color="@color/brown_accent" />
+                        </shape>
+                    </item>
+                </layer-list>
+            </item>
+            <item>
+                <shape android:shape="rectangle">
+                    <solid android:color="@android:color/transparent" />
+                </shape>
+            </item>
+        </selector>
+    </item>
+</layer-list>

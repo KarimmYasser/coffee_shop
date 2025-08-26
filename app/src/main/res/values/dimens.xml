@@ -1,0 +1,5 @@
+<resources>
+    <dimen name="underline_height">3dp</dimen>
+    <dimen name="underline_width">24dp</dimen>
+
+</resources>
