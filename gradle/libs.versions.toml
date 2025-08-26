@@ -1,5 +1,6 @@
 [versions]
 agp = "8.12.1"
+hiltNavigationComposeVersion = "1.1.0"
 kotlin = "2.0.21"
 ksp = "2.0.21-1.0.25"
 hilt = "2.51.1"
@@ -30,6 +31,7 @@ espressoCore = "3.7.0"
 [libraries]
 # AndroidX Core
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-hilt-navigation-compose-v110 = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationComposeVersion" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
 
