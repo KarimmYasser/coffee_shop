@@ -5,9 +5,8 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class GetUserNameUseCase @Inject constructor(private val userRepository: UserRepository) {
-    suspend operator fun invoke(): String? {
-        return userRepository.getUser()
+class ClearUserDataUseCase @Inject constructor(private val userRepository: UserRepository) {
+    suspend operator fun invoke() {
+        return userRepository.clearUserData()
     }
-
 }
