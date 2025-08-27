@@ -13,7 +13,7 @@ class OrderRepositoryImpl @Inject constructor(
     private val orderDao: OrderDao
 ) : OrderRepository {
 
-    override fun getAllOrders(): Flow<List<OrderEntity>> {
+    override suspend fun getAllOrders(): Flow<List<OrderEntity>> {
         return orderDao.getAllOrders()
     }
 

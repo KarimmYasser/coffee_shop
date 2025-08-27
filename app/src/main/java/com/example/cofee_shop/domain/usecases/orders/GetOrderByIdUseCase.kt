@@ -5,5 +5,6 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class GetOrderByIdUseCase @Inject constructor(OrderRepository: OrderRepository) {
+class GetOrderByIdUseCase @Inject constructor(private val orderRepository: OrderRepository) {
+    suspend operator fun invoke(orderId: String) = orderRepository.getOrderItems(orderId)
 }
