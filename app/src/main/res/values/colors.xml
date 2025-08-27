@@ -1,7 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="primary_brown">#834D1E</color>
+    <color name="primary_brown_light">#A0632A</color>
+    <color name="primary_brown_dark">#5D3415</color>
 
-    <color name="brown_accent">#FCF2D9</color> <!-- Adjust to match your brown color -->
-    <color name="gray_inactive">#FCF2D9</color>
-    <color name="bottom_nav_background">#834D1E</color>
+    <color name="background_cream">#F8E3B6</color>
+    <color name="background_light_cream">#FCF2D9</color>
+    <color name="background_white">#FFFFFF</color>
+    <color name="background_gray">#F5F5F5</color>
+
+    <color name="text_primary">#5D4037</color>
+    <color name="text_secondary">#8D6E63</color>
+    <color name="text_white">#FFFFFF</color>
+    <color name="text_hint">#BDBDBD</color>
+
+    <color name="selected_tab_bg">#834D1E</color>
+    <color name="selected_tab_text">#FCF2D9</color>
+    <color name="unselected_tab_bg">@android:color/transparent</color>
+    <color name="unselected_tab_text">#834D1E</color>
+
+    <color name="error_color">#FF5722</color>
+    <color name="success_color">#4CAF50</color>
+    <color name="warning_color">#FF9800</color>
+
+    <color name="card_background">#FFFFFF</color>
+    <color name="divider_color">#E0E0E0</color>
+    <color name="shadow_color">#1A000000</color>
+    <color name="search_bar_background">#FCF2D9</color>
+    <color name="button_primary">#8D6E63</color>
+
+    <color name="transparent">#00000000</color>
+    <color name="semi_transparent_black">#80000000</color>
 </resources>

@@ -1,8 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Text Styles -->
+    <style name="TextStyle">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="TextStyle.Headline" parent="TextStyle">
+        <item name="android:textSize">@dimen/text_size_headline</item>
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="TextStyle.Title" parent="TextStyle">
+        <item name="android:textSize">@dimen/text_size_title</item>
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="TextStyle.Subtitle" parent="TextStyle">
+        <item name="android:textSize">@dimen/text_size_subtitle</item>
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="TextStyle.Body" parent="TextStyle">
+        <item name="android:textSize">@dimen/text_size_body</item>
+        <item name="android:textColor">@color/text_primary</item>
+    </style>
+
+    <style name="TextStyle.BodySecondary" parent="TextStyle.Body">
+        <item name="android:textColor">@color/text_secondary</item>
+    </style>
+
+    <style name="TextStyle.Caption" parent="TextStyle">
+        <item name="android:textSize">@dimen/text_size_caption</item>
+        <item name="android:textColor">@color/text_secondary</item>
+    </style>
+
+    <!-- Button Styles -->
+    <style name="ButtonStyle">
+        <item name="android:background">@drawable/button_primary_background</item>
+        <item name="android:textColor">@color/text_white</item>
+        <item name="android:textSize">@dimen/text_size_small</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:paddingStart">@dimen/padding_large</item>
+        <item name="android:paddingEnd">@dimen/padding_large</item>
+        <item name="android:paddingTop">@dimen/padding_medium</item>
+        <item name="android:paddingBottom">@dimen/padding_medium</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:foreground">?android:attr/selectableItemBackground</item>
+    </style>
+
+    <style name="ButtonStyle.Error">
+        <item name="android:background">@drawable/button_error_background</item>
+    </style>
+
+    <!-- Tab Button Styles -->
+    <style name="TabButtonStyle" parent="TextStyle.Body">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">@dimen/tab_button_height</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+    </style>
+
+    <style name="TabButtonStyle.Selected">
+        <item name="android:background">@drawable/selected_tab_background</item>
+        <item name="android:textColor">@color/selected_tab_text</item>
+    </style>
+
+    <style name="TabButtonStyle.Unselected">
+        <item name="android:background">@color/unselected_tab_bg</item>
+        <item name="android:textColor">@color/unselected_tab_text</item>
+    </style>
+
+    <!-- Card Styles -->
+    <style name="CardStyle">
+        <item name="cardCornerRadius">@dimen/corner_radius_large</item>
+        <item name="cardElevation">@dimen/elevation_medium</item>
+        <item name="cardBackgroundColor">@color/card_background</item>
+    </style>
+
+    <style name="CardStyle.Small">
+        <item name="cardCornerRadius">@dimen/corner_radius_medium</item>
+        <item name="cardElevation">@dimen/elevation_low</item>
+    </style>
+
+    <style name="CardStyle.Round">
+        <item name="cardCornerRadius">@dimen/corner_radius_round</item>
+    </style>
+
+    <!-- Icon Styles -->
+    <style name="IconStyle">
+        <item name="android:layout_width">@dimen/icon_size_medium</item>
+        <item name="android:layout_height">@dimen/icon_size_medium</item>
+    </style>
+
+    <style name="IconStyle.Small">
+        <item name="android:layout_width">@dimen/icon_size_small</item>
+        <item name="android:layout_height">@dimen/icon_size_small</item>
+    </style>
+
     <style name="BottomNavigationViewStyle" parent="Widget.MaterialComponents.BottomNavigationView">
         <item name="itemBackground">@drawable/bottom_nav_item_background</item>
         <item name="itemIconTint">@color/bottom_nav_icon_color</item>
         <item name="itemTextColor">@color/bottom_nav_text_color</item>
         <item name="labelVisibilityMode">labeled</item>
+    </style>
+    <style name="EmptyStateContainer">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">@dimen/padding_xlarge</item>
+        <item name="android:visibility">gone</item>
     </style>
 </resources>

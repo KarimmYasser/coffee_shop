@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/tab_button_height"
+    android:layout_marginBottom="@dimen/margin_large"
+    android:background="@drawable/toggle_background"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/coldButton"
+        style="@style/TabButtonStyle.Selected"
+        android:text="@string/cold" />
+
+    <TextView
+        android:id="@+id/hotButton"
+        style="@style/TabButtonStyle.Unselected"
+        android:text="@string/hot" />
+
+</LinearLayout>
