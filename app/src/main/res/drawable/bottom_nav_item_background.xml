@@ -8,11 +8,10 @@
                             <solid android:color="@android:color/transparent" />
                         </shape>
                     </item>
-                    <!-- Underline indicator -->
                     <item android:gravity="bottom">
                         <shape android:shape="rectangle">
                             <size android:height="3dp" />
-                            <solid android:color="@color/brown_accent" />
+                            <solid android:color="@color/background_light_cream" />
                         </shape>
                     </item>
                 </layer-list>

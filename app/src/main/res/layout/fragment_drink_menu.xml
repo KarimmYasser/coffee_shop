@@ -1,83 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#F5F5F5"
-    android:padding="16dp">
+    android:background="@color/background_cream"
+    tools:context="presentation.fragments.DrinkMenuFragment">
 
-    <!-- Search Bar -->
-    <androidx.cardview.widget.CardView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginBottom="16dp"
-        app:cardCornerRadius="25dp"
-        app:cardElevation="4dp">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/background_cream"
+        android:layout_marginTop="@dimen/margin_large"
+        android:padding="@dimen/padding_medium">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp">
+        <include
+            android:id="@+id/headerSection"
+            layout="@layout/component_header_section" />
 
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/ic_search"
-                android:layout_marginEnd="12dp" />
+        <include
+            android:id="@+id/searchSection"
+            layout="@layout/component_search_bar" />
 
-            <EditText
-                android:id="@+id/searchEditText"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@null"
-                android:hint="Search coffee..."
-                android:textSize="16sp" />
+        <include
+            android:id="@+id/categoryTabs"
+            layout="@layout/component_category_tabs" />
 
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
+    </LinearLayout>
 
-    <!-- Category Tabs -->
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/categoryTabLayout"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_marginBottom="16dp"
-        app:tabMode="fixed"
-        app:tabGravity="fill"
-        app:tabSelectedTextColor="#8B4513"
-        app:tabTextColor="#666666"
-        app:tabIndicatorColor="#8B4513" />
-
-    <!-- ViewPager for Hot/Cold categories -->
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/categoryViewPager"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:background="@drawable/recyclerview_background">
 
-    <!-- Loading indicator -->
-    <ProgressBar
-        android:id="@+id/loadingProgressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:visibility="gone" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/coffeeRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/padding_medium"
+            android:clipToPadding="false"
+            tools:listitem="@layout/item_coffee" />
 
-    <!-- Error message -->
-    <TextView
-        android:id="@+id/errorTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Failed to load menu. Please try again."
-        android:textAlignment="center"
-        android:textSize="16sp"
-        android:textColor="#FF0000"
-        android:visibility="gone"
-        android:layout_marginTop="32dp" />
+        <include
+            android:id="@+id/emptyStateSection"
+            layout="@layout/component_empty_state" />
+
+        <include
+            android:id="@+id/errorStateSection"
+            layout="@layout/component_error_state" />
+
+    </FrameLayout>
 
 </LinearLayout>
