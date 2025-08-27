@@ -1,10 +1,11 @@
-package com.example.cofee_shop
+package com.example.cofee_shop.presentation.activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 
 import android.content.Intent
 import android.widget.Button
+import com.example.cofee_shop.R
 
 class UsernameActivity : AppCompatActivity() {
     private lateinit var btnContinue: Button

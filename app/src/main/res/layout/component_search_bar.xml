@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/CardStyle.Round"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/search_bar_height"
+    android:layout_marginBottom="@dimen/margin_medium"
+    app:cardElevation="@dimen/elevation_low"
+    app:cardBackgroundColor="@color/search_bar_background">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="@dimen/padding_medium"
+        android:paddingEnd="@dimen/padding_medium"
+        android:background="@drawable/search_bar_background">
+
+        <ImageView
+            android:id="@+id/searchIcon"
+            style="@style/IconStyle.Small"
+            android:src="@drawable/ic_search"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:alpha="0.6"
+            app:tint="@color/selected_tab_bg"
+            android:contentDescription="@string/search_icon" />
+
+        <EditText
+            android:id="@+id/searchEditText"
+            style="@style/TextStyle.Body"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@null"
+            android:hint="@string/search_coffee"
+            android:textColor="@color/selected_tab_bg"
+            android:textColorHint="@color/selected_tab_bg"
+            android:inputType="text"
+            android:importantForAutofill="no" />
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

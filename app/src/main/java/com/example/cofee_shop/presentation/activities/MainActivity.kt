@@ -1,19 +1,19 @@
-package com.example.cofee_shop
+package com.example.cofee_shop.presentation.activities
 
 import android.annotation.SuppressLint
 import android.graphics.drawable.LayerDrawable
 import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.RectShape
 import android.os.Bundle
+import android.view.Gravity
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.example.cofee_shop.R
 import com.example.cofee_shop.databinding.ActivityMainBinding
-import com.example.cofee_shop.presentation.fragments.DrinkMenuFragment
-import com.example.cofee_shop.presentation.fragments.FavoritesFragment
-import com.example.cofee_shop.presentation.fragments.HomeFragment
-import com.example.cofee_shop.presentation.fragments.OrderFragment
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        enableEdgeToEdge()
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         setupCustomUnderline(navController)
     }
 
-    private fun setupCustomUnderline(navController: androidx.navigation.NavController) {
+    private fun setupCustomUnderline(navController: NavController) {
         // Listen for destination changes to update underline
         navController.addOnDestinationChangedListener { _, destination, _ ->
             val selectedIndex = when (destination.id) {
@@ -66,13 +66,13 @@ class MainActivity : AppCompatActivity() {
             if (i == selectedIndex) {
                 // Add underline to selected item
                 val underlineDrawable = ShapeDrawable(RectShape()).apply {
-                    paint.color = ContextCompat.getColor(this@MainActivity, R.color.brown_accent)
+                    paint.color = ContextCompat.getColor(this@MainActivity, R.color.background_light_cream)
                     intrinsicHeight = resources.getDimensionPixelSize(R.dimen.underline_height)
                 }
 
                 // Create layer drawable with underline at bottom and center
                 val layerDrawable = LayerDrawable(arrayOf(underlineDrawable))
-                layerDrawable.setLayerGravity(0, android.view.Gravity.BOTTOM or android.view.Gravity.CENTER_HORIZONTAL)
+                layerDrawable.setLayerGravity(0, Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL)
                 layerDrawable.setLayerHeight(0, resources.getDimensionPixelSize(R.dimen.underline_height))
 
                 // Set custom width for underline (adjust this value as needed)

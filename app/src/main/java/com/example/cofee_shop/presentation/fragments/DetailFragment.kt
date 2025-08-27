@@ -1,6 +1,4 @@
-package com.example.cofee_shop.ui.fragment
-
-
+package com.example.cofee_shop.presentation.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater

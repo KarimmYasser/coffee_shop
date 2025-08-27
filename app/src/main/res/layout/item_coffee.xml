@@ -1,82 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/CardStyle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="6dp"
-    android:clickable="true"
-    android:foreground="?android:attr/selectableItemBackground">
+    android:layout_marginBottom="@dimen/margin_medium"
+    android:layout_marginStart="@dimen/margin_small"
+    android:layout_marginEnd="@dimen/margin_small">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="12dp">
+        android:padding="@dimen/padding_medium"
+        android:gravity="center_vertical">
 
-        <!-- Coffee Image -->
-        <ImageView
-            android:id="@+id/coffeeImageView"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:scaleType="centerCrop"
-            android:background="@drawable/coffee_placeholder"
-            app:cardCornerRadius="8dp" />
+        <androidx.cardview.widget.CardView
+            style="@style/CardStyle.Small"
+            android:layout_width="@dimen/coffee_item_image_size"
+            android:layout_height="@dimen/coffee_item_image_size"
+            app:cardElevation="@dimen/elevation_none">
 
-        <!-- Coffee Details -->
+            <ImageView
+                android:id="@+id/coffeeImageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:background="@color/background_gray"
+                android:contentDescription="@string/coffee_image"
+                tools:src="@tools:sample/avatars" />
+
+        </androidx.cardview.widget.CardView>
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:layout_marginStart="12dp"
-            android:layout_marginEnd="8dp">
+            android:layout_marginStart="@dimen/margin_medium">
 
             <TextView
                 android:id="@+id/coffeeNameTextView"
-                android:layout_width="match_parent"
+                style="@style/TextStyle.Subtitle"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Coffee Name"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="#333333"
-                android:maxLines="2"
-                android:ellipsize="end" />
+                tools:text="Iced Americano" />
 
             <TextView
-                android:id="@+id/coffeeIngredientsTextView"
-                android:layout_width="match_parent"
+                android:id="@+id/coffeeDescriptionTextView"
+                style="@style/TextStyle.BodySecondary"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Ingredients"
-                android:textSize="14sp"
-                android:textColor="#666666"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="@dimen/margin_tiny"
                 android:maxLines="2"
-                android:ellipsize="end" />
+                android:ellipsize="end"
+                tools:text="Double espresso and water, served cold" />
 
             <TextView
                 android:id="@+id/coffeePriceTextView"
-                android:layout_width="match_parent"
+                style="@style/TextStyle.Body"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="$0.00"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:textColor="#8B4513"
-                android:layout_marginTop="8dp" />
+                android:layout_marginTop="@dimen/margin_small"
+                android:fontFamily="sans-serif-medium"
+                tools:text="@string/price_format" />
 
         </LinearLayout>
 
-        <!-- Favorite Button -->
-        <ImageView
-            android:id="@+id/favoriteImageView"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/ic_favorite_border"
-            android:layout_gravity="top"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/addButtonCard"
+            style="@style/CardStyle.Round"
+            android:layout_width="@dimen/add_button_size"
+            android:layout_height="@dimen/add_button_size"
+            android:layout_marginStart="@dimen/margin_small"
+            app:cardBackgroundColor="@color/button_primary"
+            app:cardElevation="@dimen/elevation_low"
             android:clickable="true"
-            android:background="?android:attr/selectableItemBackgroundBorderless"
-            android:padding="4dp" />
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground">
+
+            <ImageView
+                style="@style/IconStyle"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_add"
+                android:contentDescription="@string/add_button"
+                app:tint="@color/text_white" />
+
+        </androidx.cardview.widget.CardView>
 
     </LinearLayout>
 
