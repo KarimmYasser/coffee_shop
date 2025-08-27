@@ -15,7 +15,23 @@
         android:id="@+id/drinkMenuFragment"
         android:name="com.example.cofee_shop.presentation.fragments.DrinkMenuFragment"
         android:label="Drink Menu"
-        tools:layout="@layout/fragment_drink_menu" />
+        tools:layout="@layout/fragment_drink_menu">
+
+        <!-- Add the action here -->
+        <action
+            android:id="@+id/action_menuFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
+    </fragment>
+
+    <!-- Add the missing DetailFragment -->
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.example.cofee_shop.ui.fragment.DetailFragment"
+        android:label="Drink Details"
+        tools:layout="@layout/fragment_detail" />
+
+
+
 
     <fragment
         android:id="@+id/orderFragment"

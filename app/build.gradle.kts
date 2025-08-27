@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
+    id("kotlin-parcelize")
 }
 
 android {
@@ -76,4 +77,10 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    implementation(libs.glide)
+    implementation(libs.androidx.viewpager2)
+    implementation(libs.androidx.recyclerview)
+
+    // For parcelize
+    implementation("org.jetbrains.kotlin:kotlin-parcelize-runtime:1.9.10")
 }
