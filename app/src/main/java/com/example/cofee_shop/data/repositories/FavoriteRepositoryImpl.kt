@@ -12,7 +12,7 @@ class FavoriteRepositoryImpl @Inject constructor(
     private val favoriteDao: FavoriteDao
 ) : FavoriteRepository {
 
-    override fun getAllFavorites(): Flow<List<FavoriteEntity>> {
+    override suspend fun getAllFavorites(): Flow<List<FavoriteEntity>> {
         return favoriteDao.getAllFavorites()
     }
 
@@ -28,7 +28,7 @@ class FavoriteRepositoryImpl @Inject constructor(
         favoriteDao.removeFavorite(drinkId)
     }
 
-    override fun getFavoriteIds(): Flow<List<Int>> {
+    override suspend fun getFavoriteIds(): Flow<List<Int>> {
         return favoriteDao.getFavoriteIds()
     }
 }
