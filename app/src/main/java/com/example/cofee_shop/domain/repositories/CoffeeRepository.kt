@@ -13,10 +13,10 @@ interface CoffeeRepository {
     suspend fun getCoffeeById(id: Int, isHot: Boolean): ApiResult<Coffee?>
     suspend fun searchCoffee(query: String): ApiResult<List<Coffee>>
 
-    fun getDrinksByType(isHot: Boolean): Flow<List<CoffeeEntity>>
-    fun getAllDrinks(): Flow<List<CoffeeEntity>>
+    suspend fun getDrinksByType(isHot: Boolean): Flow<List<CoffeeEntity>>
+    suspend fun getAllDrinks(): Flow<List<CoffeeEntity>>
     suspend fun getDrinkById(drinkId: Int): CoffeeEntity?
-    fun searchDrinks(query: String): Flow<List<CoffeeEntity>>
+    suspend fun searchDrinks(query: String): Flow<List<CoffeeEntity>>
     suspend fun insertDrinks(drinks: List<CoffeeEntity>)
     suspend fun clearAll()
     suspend fun getCount(): Int

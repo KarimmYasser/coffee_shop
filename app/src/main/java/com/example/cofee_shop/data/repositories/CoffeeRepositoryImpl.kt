@@ -126,11 +126,11 @@ class CoffeeRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getDrinksByType(isHot: Boolean): Flow<List<CoffeeEntity>> {
+    override suspend fun getDrinksByType(isHot: Boolean): Flow<List<CoffeeEntity>> {
         return coffeeDao.getDrinksByType(isHot)
     }
 
-    override fun getAllDrinks(): Flow<List<CoffeeEntity>> {
+    override suspend fun getAllDrinks(): Flow<List<CoffeeEntity>> {
         return coffeeDao.getAllDrinks()
     }
 
@@ -138,7 +138,7 @@ class CoffeeRepositoryImpl @Inject constructor(
         return coffeeDao.getDrinkById(drinkId)
     }
 
-    override fun searchDrinks(query: String): Flow<List<CoffeeEntity>> {
+    override suspend fun searchDrinks(query: String): Flow<List<CoffeeEntity>> {
         return coffeeDao.searchDrinks(query)
     }
 
