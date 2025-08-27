@@ -1,4 +1,11 @@
 package com.example.cofee_shop.data.local.database.entities
 
-class OrderEntity {
-}
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "orders")
+data class OrderEntity(
+    @PrimaryKey val orderId: String,
+    val placedAt: Long,
+    val totalAmount: Double
+)

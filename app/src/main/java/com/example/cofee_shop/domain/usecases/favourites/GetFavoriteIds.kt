@@ -5,6 +5,6 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class GetFavoritesUseCase @Inject constructor(private val favoriteRepository: FavoriteRepository) {
-    suspend operator fun invoke() = favoriteRepository.getAllFavorites()
+class GetFavoriteIds @Inject constructor(private val favoriteRepository: FavoriteRepository) {
+    suspend operator fun invoke() = favoriteRepository.getFavoriteIds()
 }

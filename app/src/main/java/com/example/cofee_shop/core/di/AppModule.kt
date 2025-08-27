@@ -20,13 +20,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideSharedPreferences(@ApplicationContext context: Context): SharedPreferences {
-        return context.getSharedPreferences("brewbuddy_prefs", Context.MODE_PRIVATE)
-    }
-
-    @Provides
-    @Singleton
-    fun provideUserPreferences(sharedPreferences: SharedPreferences): UserPreferences {
-        return UserPreferences(sharedPreferences)
+    fun provideUserPreferences(@ApplicationContext context: Context): UserPreferences {
+        return UserPreferences(context)
     }
 }
