@@ -53,4 +53,9 @@
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="close">Close</string>
+    <string name="co_choc">Co/Choc</string>
+    <string name="a_way_to_enjoy_bitter_and_sweet_of_life">A way to enjoy bitter and sweet of life</string>
+    <string name="please_enter_your_name">Please Enter Your Name:</string>
+    <string name="username">Username</string>
+    <string name="continue_">Continue</string>
 </resources>

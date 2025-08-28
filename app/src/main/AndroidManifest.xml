@@ -21,6 +21,7 @@
         <!-- Splash Screen (Launch Activity) -->
         <activity
             android:name=".presentation.activities.SplashActivity"
+            android:theme="@style/Theme.Cofee_shop.Splash"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,6 +33,9 @@
         <activity
             android:name=".presentation.activities.MainActivity"
             android:exported="false" />
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

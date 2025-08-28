@@ -32,8 +32,8 @@ abstract class RepositoryModule {
 //        orderRepositoryImpl: OrderRepositoryImpl
 //    ): OrderRepository
 //
-//    @Binds
-//    abstract fun bindUserRepository(
-//        userRepositoryImpl: UserRepositoryImpl
-//    ): UserRepository
+    @Binds
+    abstract fun bindUserRepository(
+        userRepositoryImpl: UserRepositoryImpl
+    ): UserRepository
 }
