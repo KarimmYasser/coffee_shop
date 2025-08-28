@@ -5,9 +5,11 @@ import android.os.Bundle
 import android.widget.Button
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.example.cofee_shop.R
 import com.example.cofee_shop.presentation.managers.EnterUsernameViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import kotlin.getValue
 
 @AndroidEntryPoint
@@ -20,6 +22,13 @@ class UsernameActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_username)
+        lifecycleScope.launch {
+            enterUsernameViewModel.userName.collect { username ->
+                if (etUsername.text.toString() != username) {
+                    etUsername.setText(username)
+                }
+            }
+        }
         setupListeners()
     }
 
