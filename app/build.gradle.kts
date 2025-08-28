@@ -83,4 +83,7 @@ dependencies {
 
     // For parcelize
     implementation("org.jetbrains.kotlin:kotlin-parcelize-runtime:1.9.10")
+
+    //coil
+    implementation("io.coil-kt:coil:2.4.0")
 }
