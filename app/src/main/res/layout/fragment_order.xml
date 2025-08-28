@@ -1,15 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.fragments.OrderFragment">
+    android:orientation="vertical"
+    android:background="@color/background_cream"
+    tools:context="presentation.fragments.OrderFragment">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <!-- Header -->
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Your Order Screen"
-        android:layout_gravity="center"
-        android:textSize="20sp"/>
+        android:orientation="vertical"
+        android:background="@color/background_cream"
+        android:layout_marginTop="@dimen/margin_large"
+        android:padding="@dimen/padding_medium">
 
-</FrameLayout>
+        <include
+            android:id="@+id/headerSection"
+            layout="@layout/component_header_section" />
+
+
+        <include
+            android:id="@+id/searchSection"
+            layout="@layout/component_search_bar" />
+
+    </LinearLayout>
+
+    <!-- RecyclerView + States -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@drawable/recyclerview_background">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/ordersRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/padding_medium"
+            android:clipToPadding="false"
+            tools:listitem="@layout/item_order" />
+
+        <include
+            android:id="@+id/emptyStateSection"
+            layout="@layout/component_empty_state" />
+
+        <include
+            android:id="@+id/errorStateSection"
+            layout="@layout/component_error_state" />
+
+    </FrameLayout>
+
+
+    <Button
+        android:id="@+id/btnPlaceOrder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Place Order"
+        android:layout_margin="@dimen/margin_medium"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+
+</LinearLayout>
