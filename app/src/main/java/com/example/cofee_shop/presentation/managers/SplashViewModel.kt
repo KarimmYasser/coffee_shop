@@ -24,7 +24,7 @@ class SplashViewModel @Inject constructor(
         getUserName()
     }
 
-    fun getUserName() {
+    private fun getUserName() {
         val coroutineExceptionHandler =
             CoroutineExceptionHandler { _, exception ->
                 _userName.update { null }
