@@ -7,10 +7,12 @@ import android.os.Handler
 import android.os.Looper
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.asLiveData
+import androidx.lifecycle.lifecycleScope
 import com.example.cofee_shop.R
 import com.example.cofee_shop.presentation.managers.SplashViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @SuppressLint("CustomSplashScreen")
 @AndroidEntryPoint
@@ -22,15 +24,17 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-        viewModel.userName.asLiveData().observe(this) { state ->
-            Handler(Looper.getMainLooper()).postDelayed({
-                if (state == null) {
-                    startActivity(Intent(this, UsernameActivity::class.java))
-                } else {
-                    startActivity(Intent(this, MainActivity::class.java))
+        Handler(Looper.getMainLooper()).postDelayed({
+            lifecycleScope.launch {
+                viewModel.userName.collectLatest { state ->
+                    if (state == null) {
+                        startActivity(Intent(this@SplashActivity, UsernameActivity::class.java))
+                    } else {
+                        startActivity(Intent(this@SplashActivity, MainActivity::class.java))
+                    }
+                    finish()
                 }
-                finish()
-            }, 1500)
-        }
+            }
+        }, 1500)
     }
 }
