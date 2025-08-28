@@ -4,7 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.cofee_shop.core.ApiResult
 import com.example.cofee_shop.domain.models.Coffee
-import com.example.cofee_shop.domain.usecases.coffee.CoffeeUseCases
+import com.example.cofee_shop.domain.usecases.coffee.GetHotCoffeesUseCase
+import com.example.cofee_shop.domain.usecases.coffee.GetIcedCoffeesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -17,7 +18,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MenuViewModel @Inject constructor(
-    private val coffeeUseCases: CoffeeUseCases
+    private val getHotCoffeesUseCase: GetHotCoffeesUseCase,
+    private val getIcedCoffeesUseCase: GetIcedCoffeesUseCase
 ) : ViewModel() {
 
     private val _hotCoffeeList = MutableStateFlow<List<Coffee>>(emptyList())
@@ -71,7 +73,7 @@ class MenuViewModel @Inject constructor(
 
     private fun loadHotCoffee() {
         viewModelScope.launch {
-            when (val result = coffeeUseCases.getHotCoffees()) {
+            when (val result = getHotCoffeesUseCase()) {
                 is ApiResult.Loading -> {
                     _isLoading.value = true
                 }
@@ -90,7 +92,7 @@ class MenuViewModel @Inject constructor(
 
     private fun loadIcedCoffee() {
         viewModelScope.launch {
-            when (val result = coffeeUseCases.getIcedCoffees()) {
+            when (val result = getIcedCoffeesUseCase()) {
                 is ApiResult.Loading -> {
                     _isLoading.value = true
                 }
