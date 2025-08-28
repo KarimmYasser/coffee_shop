@@ -25,6 +25,7 @@
     <dimen name="corner_radius_large">16dp</dimen>
     <dimen name="corner_radius_xlarge">20dp</dimen>
     <dimen name="corner_radius_round">25dp</dimen>
+    <dimen name="corner_radius_huge">100dp</dimen>
 
     <dimen name="elevation_none">0dp</dimen>
     <dimen name="elevation_low">2dp</dimen>
