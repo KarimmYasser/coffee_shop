@@ -3,5 +3,13 @@
     <style name="Base.Theme.Cofee_shop" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <item name="android:windowDisablePreview">true</item>
+    </style>
+
+    <style name="Theme.Cofee_shop.Splash" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="android:windowDisablePreview">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="windowSplashScreenBackground">@color/transparent</item>
+        <item name="windowSplashScreenIconBackgroundColor">@color/transparent</item>
     </style>
 </resources>
