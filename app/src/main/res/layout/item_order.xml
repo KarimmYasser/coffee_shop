@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/margin_small"
+    app:cardCornerRadius="@dimen/radius_large"
+    app:cardUseCompatPadding="true"
+    android:foreground="?attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding_medium">
+
+        <!-- Order ID -->
+        <TextView
+            android:id="@+id/textOrderId"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Order #12345"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:textColor="@color/text_primary"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/textOrderTotal"
+            app:layout_constraintHorizontal_bias="0" />
+
+        <!-- Total -->
+        <TextView
+            android:id="@+id/textOrderTotal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="$12.50"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:textColor="@color/text_primary"
+            app:layout_constraintTop_toTopOf="@+id/textOrderId"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Date & Time -->
+        <TextView
+            android:id="@+id/textOrderDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Mon, 21 Aug 2025 • 10:45 AM"
+            android:textSize="13sp"
+            android:textColor="@color/text_secondary"
+            app:layout_constraintTop_toBottomOf="@+id/textOrderId"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="@dimen/margin_xsmall" />
+
+        <!-- Items Count -->
+        <TextView
+            android:id="@+id/textItemCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3 items"
+            android:textSize="13sp"
+            android:textColor="@color/text_secondary"
+            app:layout_constraintTop_toBottomOf="@+id/textOrderDate"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="@dimen/margin_xsmall"
+            android:layout_marginBottom="@dimen/margin_small" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>
