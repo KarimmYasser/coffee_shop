@@ -19,8 +19,8 @@ class EnterUsernameViewModel @Inject constructor(
     private val saveUserNameUseCase: SaveUserNameUseCase
 ) : ViewModel() {
 
-    private val _userName = MutableStateFlow<String?>(null)
-    val userName: StateFlow<String?> get() = _userName.asStateFlow()
+    private val _userName = MutableStateFlow("")
+    val userName: StateFlow<String> get() = _userName.asStateFlow()
 
     fun saveUserName(): Job {
         val coroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
@@ -29,7 +29,7 @@ class EnterUsernameViewModel @Inject constructor(
 
         return viewModelScope.launch(coroutineExceptionHandler) {
             runCatching {
-                saveUserNameUseCase(userName.value ?: "")
+                saveUserNameUseCase(userName.value)
             }.onFailure {
                 Log.e("EnterUsernameViewModel", "Failed to save username", it)
             }
