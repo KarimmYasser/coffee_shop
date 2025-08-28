@@ -17,16 +17,17 @@ class UsernameActivity : AppCompatActivity() {
 
     private val btnContinue: Button by lazy { findViewById(R.id.btnContinue) }
     private val etUsername by lazy { findViewById<android.widget.EditText>(R.id.etUsername) }
-    private val enterUsernameViewModel: EnterUsernameViewModel by viewModels()
+    private val viewModel: EnterUsernameViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_username)
         lifecycleScope.launch {
-            enterUsernameViewModel.userName.collect { username ->
-                if (etUsername.text.toString() != username) {
-                    etUsername.setText(username)
+            viewModel.enterUserState.collect { usernameState ->
+                if (etUsername.text.toString() != usernameState.userName) {
+                    etUsername.setText(usernameState.userName)
                 }
+                etUsername.error = usernameState.errorMessage
             }
         }
         setupListeners()
@@ -34,15 +35,18 @@ class UsernameActivity : AppCompatActivity() {
 
     private fun setupListeners() {
         btnContinue.setOnClickListener {
-            if (etUsername.text.isNullOrBlank()) return@setOnClickListener
-            enterUsernameViewModel.saveUserName().invokeOnCompletion {
+            if (etUsername.text.isNullOrBlank()) {
+                viewModel.displayError("Username cannot be empty")
+                return@setOnClickListener
+            }
+            viewModel.saveUserName().invokeOnCompletion {
                 runOnUiThread { navigateToMain() }
             }
         }
         etUsername.addTextChangedListener(object : android.text.TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                enterUsernameViewModel.onUserNameChanged(s.toString())
+                viewModel.onUserNameChanged(s.toString())
             }
             override fun afterTextChanged(s: android.text.Editable?) {}
         })

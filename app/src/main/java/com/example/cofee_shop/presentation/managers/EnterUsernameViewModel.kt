@@ -14,13 +14,18 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+data class UserNameState(
+    val userName: String = "",
+    val errorMessage: String? = null
+)
+
 @HiltViewModel
 class EnterUsernameViewModel @Inject constructor(
     private val saveUserNameUseCase: SaveUserNameUseCase
 ) : ViewModel() {
 
-    private val _userName = MutableStateFlow("")
-    val userName: StateFlow<String> get() = _userName.asStateFlow()
+    private val _enterUserState = MutableStateFlow(UserNameState())
+    val enterUserState: StateFlow<UserNameState> get() = _enterUserState.asStateFlow()
 
     fun saveUserName(): Job {
         val coroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
@@ -29,7 +34,7 @@ class EnterUsernameViewModel @Inject constructor(
 
         return viewModelScope.launch(coroutineExceptionHandler) {
             runCatching {
-                saveUserNameUseCase(userName.value)
+                saveUserNameUseCase(enterUserState.value.userName)
             }.onFailure {
                 Log.e("EnterUsernameViewModel", "Failed to save username", it)
             }
@@ -37,6 +42,14 @@ class EnterUsernameViewModel @Inject constructor(
     }
 
     fun onUserNameChanged(newName: String) {
-        _userName.update { newName }
+        _enterUserState.update {
+            it.copy(userName = newName, errorMessage = null)
+        }
+    }
+
+    fun displayError(message: String) {
+        _enterUserState.update {
+            it.copy(errorMessage = message)
+        }
     }
 }
