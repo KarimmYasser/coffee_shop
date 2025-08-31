@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.graphics.drawable.Drawable
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -22,6 +23,7 @@ import java.util.Locale
 
 class CoffeeAdapter(
     private val onAddClick: (Coffee) -> Unit,
+    private val onItemClick: (Coffee) -> Unit,
     private val isHome: Boolean
 ) : ListAdapter<Coffee, CoffeeAdapter.BaseCoffeeViewHolder>(CoffeeDiffCallback()) {
 
@@ -50,13 +52,13 @@ class CoffeeAdapter(
     }
 
     abstract inner class BaseCoffeeViewHolder(
-        root: android.view.View
+        root: View
     ) : RecyclerView.ViewHolder(root) {
         abstract fun bind(coffee: Coffee)
     }
 
     inner class CoffeeViewHolder(private val binding: ItemCoffeeBinding) :
-        BaseCoffeeViewHolder(binding.root as ViewGroup) {
+        BaseCoffeeViewHolder(binding.root) {
 
         @SuppressLint("SetTextI18n")
         override fun bind(coffee: Coffee) {
@@ -100,13 +102,14 @@ class CoffeeAdapter(
                 }
 
                 root.setOnClickListener {
+                    onItemClick(coffee)
                 }
             }
         }
     }
 
     inner class HomeCoffeeViewHolder(private val binding: ItemHomeCoffeeBinding) :
-        BaseCoffeeViewHolder(binding.root as ViewGroup) {
+        BaseCoffeeViewHolder(binding.root) {
 
         @SuppressLint("SetTextI18n")
         override fun bind(coffee: Coffee) {
@@ -149,6 +152,7 @@ class CoffeeAdapter(
                 }
 
                 root.setOnClickListener {
+                    onItemClick(coffee)
                 }
             }
         }

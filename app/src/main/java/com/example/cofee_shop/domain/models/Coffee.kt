@@ -1,11 +1,9 @@
 package com.example.cofee_shop.domain.models
 
+import kotlinx.serialization.Serializable
 
 
-import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
-
-@Parcelize
+@Serializable
 data class Coffee(
     val id: Int,
     val title: String,
@@ -14,4 +12,4 @@ data class Coffee(
     val image: String,
     val price: Double,
     val isHot: Boolean = true
-) : Parcelable
+) : java.io.Serializable

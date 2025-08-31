@@ -14,9 +14,10 @@ import com.example.cofee_shop.R
 import com.example.cofee_shop.adapter.OrdersAdapter
 import com.example.cofee_shop.presentation.managers.OrderViewModel
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-
+@AndroidEntryPoint
 class OrderFragment : Fragment() {
 
     private val viewModel: OrderViewModel by viewModels()

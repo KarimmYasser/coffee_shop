@@ -5,8 +5,9 @@ package com.example.cofee_shop.data.models
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.Serializable
 
-@Parcelize
+@Serializable
 data class CoffeeItem(
     val id: Int = 0,
     val title: String = "",
@@ -14,4 +15,4 @@ data class CoffeeItem(
     val ingredients: List<String> = emptyList(),
     val image: String = "",
     val price: Double = 0.0
-) : Parcelable
+) : java.io.Serializable
