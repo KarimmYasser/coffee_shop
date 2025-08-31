@@ -131,6 +131,46 @@ class CoffeeRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getAllDrinks(): Flow<List<CoffeeEntity>> {
+        // First, try to populate the database if it's empty
+        val currentCount = coffeeDao.getCount()
+        if (currentCount == 0) {
+            try {
+                // Fetch hot coffees from API
+                val hotCoffeesResult = getHotCoffees()
+                if (hotCoffeesResult is ApiResult.Success) {
+                    val hotEntities = hotCoffeesResult.data.map { coffee ->
+                        CoffeeEntity(
+                            id = coffee.id,
+                            title = coffee.title,
+                            description = coffee.description,
+                            ingredients = coffee.ingredients,
+                            imageUrl = coffee.image,
+                            isHot = true
+                        )
+                    }
+                    coffeeDao.insertDrinks(hotEntities)
+                }
+
+                // Fetch iced coffees from API
+                val icedCoffeesResult = getIcedCoffees()
+                if (icedCoffeesResult is ApiResult.Success) {
+                    val icedEntities = icedCoffeesResult.data.map { coffee ->
+                        CoffeeEntity(
+                            id = coffee.id + 1000, // Offset IDs to avoid conflicts
+                            title = coffee.title,
+                            description = coffee.description,
+                            ingredients = coffee.ingredients,
+                            imageUrl = coffee.image,
+                            isHot = false
+                        )
+                    }
+                    coffeeDao.insertDrinks(icedEntities)
+                }
+            } catch (e: Exception) {
+                // If API fails, continue with empty database
+            }
+        }
+
         return coffeeDao.getAllDrinks()
     }
 

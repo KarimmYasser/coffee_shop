@@ -6,8 +6,8 @@
     android:layout_height="match_parent"
     android:background="@color/background_cream"
     android:paddingTop="20dp"
-    android:orientation="vertical">
-    <!--    tools:context="presentation.fragments.DrinkMenuFragment">-->
+    android:orientation="vertical"
+    tools:context="presentation.fragments.HomeFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -85,6 +85,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:importantForAccessibility="no"
                         android:src="@drawable/ic_arrow"
                         app:layout_constraintBottom_toBottomOf="@id/tvMoreInfo"
                         app:layout_constraintStart_toEndOf="@id/tvMoreInfo"
@@ -115,9 +116,9 @@
                 android:id="@+id/tvRecommendations"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:paddingVertical="24dp"
                 android:fontFamily="@font/inter_semibold"
-                android:text="This Week’s Recommendations"
+                android:text="@string/this_week_s_recommendations"
                 android:textSize="18sp"
                 style="@style/TextStyle.Headline"
                 app:layout_constraintStart_toStartOf="parent"
@@ -125,8 +126,8 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvRecommendations"
-                android:layout_width="0dp"
-                android:layout_height="240dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:overScrollMode="never"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -134,14 +135,14 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvRecommendations"
-                tools:listitem="@layout/item_recommendation" />
+                tools:listitem="@layout/item_home_coffee" />
 
             <TextView
                 android:id="@+id/what_in_shop"
                 style="@style/TextStyle.Headline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="What’s in the shop?"
+                android:text="@string/what_s_in_the_shop"
                 android:textColor="@color/text_primary"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="@+id/tvRecommendations"
