@@ -58,4 +58,8 @@
     <string name="please_enter_your_name">Please Enter Your Name:</string>
     <string name="username">Username</string>
     <string name="continue_">Continue</string>
+    <string name="good_morning">Good Morning, John Doe</string>
+    <string name="best_seller_of_the_week">Best seller of the week</string>
+    <string name="best_seller_name">Iced Coffee Sweet Heaven</string>
+    <string name="more_info">More info</string>
 </resources>

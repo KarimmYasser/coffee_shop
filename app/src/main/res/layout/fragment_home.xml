@@ -1,15 +1,216 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.fragments.HomeFragment">
+    android:background="@color/background_cream"
+    android:paddingTop="20dp"
+    android:orientation="vertical">
+    <!--    tools:context="presentation.fragments.DrinkMenuFragment">-->
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Home Screen"
-        android:layout_gravity="center"
-        android:textSize="20sp"/>
+        android:layout_marginTop="@dimen/margin_large"
+        android:padding="@dimen/padding_medium"
+        android:orientation="vertical">
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/headerSection"
+            android:layout_marginHorizontal="@dimen/padding_medium"
+            android:layout_marginBottom="32dp"
+            layout="@layout/component_home_header_section" />
 
-</FrameLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:padding="@dimen/padding_medium">
+
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cvBestSeller"
+                android:layout_width="0dp"
+                android:layout_height="180dp"
+                app:cardBackgroundColor="#834D1E"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:gravity="top"
+                        android:id="@+id/textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/inter"
+                        android:textAppearance="@style/best_seller"
+                        android:text="@string/best_seller_of_the_week"
+                        android:textSize="12sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tvCoffeeTitle"
+                        android:layout_width="134dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/best_seller_name"
+                        android:textAppearance="@style/text_bold"
+                        app:layout_constraintBottom_toTopOf="@+id/tvMoreInfo"
+                        app:layout_constraintStart_toStartOf="@+id/textView"
+                        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+                    <TextView
+                        android:id="@+id/tvMoreInfo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/inter"
+                        android:paddingStart="0dp"
+                        android:paddingEnd="12dp"
+                        android:text="@string/more_info"
+                        android:textAppearance="@style/more_info"
+                        android:textSize="12sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/textView" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_arrow"
+                        app:layout_constraintBottom_toBottomOf="@id/tvMoreInfo"
+                        app:layout_constraintStart_toEndOf="@id/tvMoreInfo"
+                        app:layout_constraintTop_toTopOf="@id/tvMoreInfo"/>
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/ivBestImage"
+                        android:layout_width="82dp"
+                        android:layout_height="122dp"
+                        android:cropToPadding="true"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/img_recommended"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:shapeAppearanceOverlay="@style/RoundedImage" />
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/guideline"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/tvRecommendations"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:fontFamily="@font/inter_semibold"
+                android:text="This Week’s Recommendations"
+                android:textSize="18sp"
+                style="@style/TextStyle.Headline"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cvBestSeller" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvRecommendations"
+                android:layout_width="0dp"
+                android:layout_height="240dp"
+                android:orientation="horizontal"
+                android:overScrollMode="never"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvRecommendations"
+                tools:listitem="@layout/item_recommendation" />
+
+            <TextView
+                android:id="@+id/what_in_shop"
+                style="@style/TextStyle.Headline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="What’s in the shop?"
+                android:textColor="@color/text_primary"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@+id/tvRecommendations"
+                app:layout_constraintTop_toBottomOf="@+id/rvRecommendations" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_new_menu"
+                android:layout_width="0dp"
+                android:layout_height="180dp"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginTop="16dp"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/what_in_shop">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/img_new_item" />
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/linear_effect" />
+                </FrameLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/tv_coffee_new"
+                        android:textAppearance="@style/text_bold"
+                        android:layout_width="136dp"
+                        android:layout_height="wrap_content"
+                        android:text="Introducing our new menu"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/guideline_second"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.3" />
+
+                    <TextView
+                        android:textAppearance="@style/text_bold"
+                        android:layout_width="244dp"
+                        android:layout_height="wrap_content"
+                        android:text="Try our refreshing lemonade, strawberry lemonade, and orange lemonade"
+                        android:textSize="10sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/guideline_second"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_coffee_new" />
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/guideline_second"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_begin="26dp" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+
+
+</ScrollView>
