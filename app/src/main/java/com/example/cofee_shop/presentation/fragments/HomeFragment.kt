@@ -1,6 +1,7 @@
 package com.example.cofee_shop.presentation.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -8,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cofee_shop.R
 import com.example.cofee_shop.adapter.CoffeeAdapter
@@ -39,10 +41,13 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun setupRecyclerView() {
         coffeeAdapter = CoffeeAdapter(
-            { coffee ->
-                onCoffeeItemClicked(coffee);
+            onAddClick = { coffee ->
+                onCoffeeAddClicked(coffee)
             },
-            true
+            onItemClick = { coffee ->
+                navigateToCoffeeDetail(coffee)
+            },
+            isHome = true
         )
 
         binding.rvRecommendations.apply {
@@ -73,9 +78,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private fun observeViewModel() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                observeCoffeeList()
-                observeLoadingState()
-                observeErrorState()
+                launch { observeCoffeeList() }
+                launch { observeLoadingState() }
+                launch { observeErrorState() }
+                launch { observeUserName() }
             }
         }
     }
@@ -88,7 +94,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private suspend fun observeLoadingState() {
         homeViewModel.isLoading.collect { isLoading ->
-            // Handle loading state - you can add loading indicators here if needed
+            // Handle loading state
         }
     }
 
@@ -100,9 +106,29 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
     }
 
-    private fun onCoffeeItemClicked(coffee: Coffee) {
+    private suspend fun observeUserName() {
+        homeViewModel.userName.collect { userName ->
+            updateGreetingMessage(userName)
+        }
+    }
+
+    private fun updateGreetingMessage(userName: String?) {
+        val greetingText = if (userName != null) {
+            "Good morning, $userName"
+        } else {
+            "Good morning"
+        }
+        binding.headerSection.greetingLine2TextView.text = greetingText
+    }
+
+    private fun onCoffeeAddClicked(coffee: Coffee) {
         val message = getString(R.string.added_to_cart, coffee.title)
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun navigateToCoffeeDetail(coffee: Coffee) {
+        val action = HomeFragmentDirections.actionHomeFragmentToCoffeeDetailFragment(coffee)
+        findNavController().navigate(action)
     }
 
     private fun handleNotificationClick() {
@@ -124,5 +150,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    companion object {
+        private const val TAG = "HomeFragment"
     }
 }

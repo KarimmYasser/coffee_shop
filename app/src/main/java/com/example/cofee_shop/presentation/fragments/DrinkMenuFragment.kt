@@ -16,6 +16,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cofee_shop.R
@@ -61,12 +62,25 @@ class DrinkMenuFragment : Fragment() {
         setupClickListeners()
     }
 
+    private fun onCoffeeAddClicked(coffee: Coffee) {
+        val message = getString(R.string.added_to_cart, coffee.title)
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun navigateToCoffeeDetail(coffee: Coffee) {
+        val action = DrinkMenuFragmentDirections.actionDrinkMenuFragmentToCoffeeDetailFragment(coffee)
+        findNavController().navigate(action)
+    }
+
     private fun setupRecyclerView() {
         coffeeAdapter = CoffeeAdapter(
-            { coffee ->
-                onCoffeeItemClicked(coffee)
+            onAddClick = { coffee ->
+                onCoffeeAddClicked(coffee)
             },
-            false
+            onItemClick = { coffee ->
+                navigateToCoffeeDetail(coffee)
+            },
+            isHome = false // Set to false for menu fragment
         )
 
         binding.coffeeRecyclerView.apply {
@@ -136,55 +150,45 @@ class DrinkMenuFragment : Fragment() {
     private fun observeViewModel() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                observeCurrentCategory()
-                observeSearchQuery()
-                observeFilteredCoffeeList()
-                observeLoadingState()
-                observeErrorState()
+                launch { observeCurrentCategory() }
+                launch { observeSearchQuery() }
+                launch { observeFilteredCoffeeList() }
+                launch { observeLoadingState() }
+                launch { observeErrorState() }
             }
         }
     }
 
-    private fun observeCurrentCategory() {
-        lifecycleScope.launch {
-            menuViewModel.currentCategory.collect { category ->
-                updateButtonStates(category)
-                clearSearchFieldSafely()
-            }
+    private suspend fun observeCurrentCategory() {
+        menuViewModel.currentCategory.collect { category ->
+            updateButtonStates(category)
+            clearSearchFieldSafely()
         }
     }
 
-    private fun observeSearchQuery() {
-        lifecycleScope.launch {
-            menuViewModel.searchQuery.collect { query ->
-                updateSearchFieldIfNeeded(query)
-            }
+    private suspend fun observeSearchQuery() {
+        menuViewModel.searchQuery.collect { query ->
+            updateSearchFieldIfNeeded(query)
         }
     }
 
-    private fun observeFilteredCoffeeList() {
-        lifecycleScope.launch {
-            menuViewModel.filteredCoffeeList.collect { coffeeList ->
-                Log.d(TAG, "Coffee list updated: ${coffeeList.size} items")
-                updateCoffeeList(coffeeList)
-                updateEmptyState(coffeeList)
-            }
+    private suspend fun observeFilteredCoffeeList() {
+        menuViewModel.filteredCoffeeList.collect { coffeeList ->
+            Log.d(TAG, "Coffee list updated: ${coffeeList.size} items")
+            updateCoffeeList(coffeeList)
+            updateEmptyState(coffeeList)
         }
     }
 
-    private fun observeLoadingState() {
-        lifecycleScope.launch {
-            menuViewModel.isLoading.collect { isLoading ->
-                handleLoadingState(isLoading)
-            }
+    private suspend fun observeLoadingState() {
+        menuViewModel.isLoading.collect { isLoading ->
+            handleLoadingState(isLoading)
         }
     }
 
-    private fun observeErrorState() {
-        lifecycleScope.launch {
-            menuViewModel.errorMessage.collect { errorMessage ->
-                handleErrorState(errorMessage)
-            }
+    private suspend fun observeErrorState() {
+        menuViewModel.errorMessage.collect { errorMessage ->
+            handleErrorState(errorMessage)
         }
     }
 
@@ -378,11 +382,6 @@ class DrinkMenuFragment : Fragment() {
         }
     }
 
-    private fun onCoffeeItemClicked(coffee: Coffee) {
-        val message = getString(R.string.added_to_cart, coffee.title)
-        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
-    }
-
     private fun handleNotificationClick() {
         Toast.makeText(requireContext(), "Notifications clicked", Toast.LENGTH_SHORT).show()
     }
@@ -404,6 +403,6 @@ class DrinkMenuFragment : Fragment() {
     }
 
     companion object {
-        private const val TAG = "MenuFragment"
+        private const val TAG = "DrinkMenuFragment"
     }
 }
