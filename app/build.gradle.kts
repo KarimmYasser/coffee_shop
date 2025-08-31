@@ -12,7 +12,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.cofee_shop"
-        minSdk = 24
+        minSdk = 28
         targetSdk = 36
 
         versionCode = 1
