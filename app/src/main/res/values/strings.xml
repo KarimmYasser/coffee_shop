@@ -54,6 +54,7 @@
     <string name="cancel">Cancel</string>
     <string name="close">Close</string>
 
+
     <string name="add_to_favorites">Add to favorites</string>
     <string name="remove_from_favorites">Remove from favorites</string>
     <string name="decrease_quantity">Decrease quantity</string>
@@ -63,4 +64,17 @@
     <string name="added_to_favorites">Added to favorites</string>
     <string name="removed_from_favorites">Removed from favorites</string>
     <string name="_1">1</string>
+
+    <string name="co_choc">Co/Choc</string>
+    <string name="a_way_to_enjoy_bitter_and_sweet_of_life">A way to enjoy bitter and sweet of life</string>
+    <string name="please_enter_your_name">Please Enter Your Name:</string>
+    <string name="username">Username</string>
+    <string name="continue_">Continue</string>
+    <string name="good_morning">Good Morning, John Doe</string>
+    <string name="best_seller_of_the_week">Best seller of the week</string>
+    <string name="best_seller_name">Iced Coffee Sweet Heaven</string>
+    <string name="more_info">More info</string>
+    <string name="this_week_s_recommendations">This Week’s Recommendations</string>
+    <string name="what_s_in_the_shop">What’s in the shop?</string>
+
 </resources>
