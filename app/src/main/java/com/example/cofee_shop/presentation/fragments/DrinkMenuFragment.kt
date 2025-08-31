@@ -63,8 +63,19 @@ class DrinkMenuFragment : Fragment() {
     }
 
     private fun onCoffeeAddClicked(coffee: Coffee) {
-        val message = getString(R.string.added_to_cart, coffee.title)
-        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+        // Show confirmation dialog before adding to cart
+        showAddToCartConfirmation(coffee)
+    }
+
+    private fun showAddToCartConfirmation(coffee: Coffee) {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Add to Cart")
+            .setMessage("Add ${coffee.title} to your cart?")
+            .setPositiveButton("Add") { _, _ ->
+                menuViewModel.addCoffeeToCart(coffee)
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
     }
 
     private fun navigateToCoffeeDetail(coffee: Coffee) {
@@ -80,7 +91,7 @@ class DrinkMenuFragment : Fragment() {
             onItemClick = { coffee ->
                 navigateToCoffeeDetail(coffee)
             },
-            isHome = false // Set to false for menu fragment
+            isHome = false
         )
 
         binding.coffeeRecyclerView.apply {
@@ -155,6 +166,8 @@ class DrinkMenuFragment : Fragment() {
                 launch { observeFilteredCoffeeList() }
                 launch { observeLoadingState() }
                 launch { observeErrorState() }
+                launch { observeAddToCartState() }
+                launch { observeAddToCartMessage() }
             }
         }
     }
@@ -189,6 +202,26 @@ class DrinkMenuFragment : Fragment() {
     private suspend fun observeErrorState() {
         menuViewModel.errorMessage.collect { errorMessage ->
             handleErrorState(errorMessage)
+        }
+    }
+
+    private suspend fun observeAddToCartState() {
+        menuViewModel.isAddingToCart.collect { isAddingToCart ->
+            // Show progress when adding to cart
+            if (isAddingToCart) {
+                showLoadingDialog()
+            } else {
+                hideLoadingDialog()
+            }
+        }
+    }
+
+    private suspend fun observeAddToCartMessage() {
+        menuViewModel.addToCartMessage.collect { message ->
+            message?.let {
+                Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+                menuViewModel.clearAddToCartMessage()
+            }
         }
     }
 

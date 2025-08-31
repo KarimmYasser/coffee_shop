@@ -4,23 +4,12 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
-@Entity(
-    tableName = "order_items",
-    foreignKeys = [
-        ForeignKey(
-            entity = OrderEntity::class,
-            parentColumns = ["orderId"],
-            childColumns = ["orderId"],
-            onDelete = ForeignKey.CASCADE
-        )
-    ]
-)
+@Entity(tableName = "order_items")
 data class OrderItemEntity(
-    @PrimaryKey(autoGenerate = true) val itemId: Long = 0,
+    @PrimaryKey val orderItemId: String,
     val orderId: String,
-    val drinkId: Int,
-    val drinkName: String,
-    val drinkImage: String,
-    val price: Double,
-    val quantity: Int
+    val coffeeId: String,
+    val coffeeName: String,
+    val quantity: Int,
+    val price: Double
 )

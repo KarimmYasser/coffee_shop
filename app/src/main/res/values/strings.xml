@@ -11,7 +11,19 @@
     <string name="what_would_you">What would you</string>
     <string name="like_to_drink_today">like to drink today?</string>
     <string name="greeting_message">%1$s %2$s</string>
-
+    <string name="your_cart">Your Cart</string>
+    <string name="cart_item_count">%d items</string>
+    <string name="total">Total</string>
+    <string name="place_order">Place Order</string>
+    <string name="clear_cart">Clear Cart</string>
+    <string name="placing_order">Placing Order...</string>
+    <string name="clear_cart_title">Clear Cart</string>
+    <string name="clear_cart_message">Are you sure you want to remove all items from your cart?</string>
+    <string name="clear">Clear</string>
+    <string name="empty_cart_title">Your cart is empty</string>
+    <string name="empty_cart_message">Add some delicious coffee to get started!</string>
+    <string name="browse_menu">Browse Menu</string>
+    <string name="remove_item">Remove item</string>
     <string name="search">Search..</string>
     <string name="search_coffee">Search coffee...</string>
     <string name="search_icon">Search Icon</string>
