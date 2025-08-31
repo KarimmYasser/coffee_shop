@@ -1,4 +1,41 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/splash_background"/>
+    android:background="@drawable/splash_background">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#4D834D1E" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="#4D834D1E">
+
+        <TextView
+            android:id="@+id/splash_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/co_choc"
+            android:textSize="40sp"
+            android:fontFamily="@font/raleway_bold"
+            android:letterSpacing="0.1"
+            android:textColor="#FF020202"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/splash_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:letterSpacing="0.01"
+            android:fontFamily="@font/raleway_bold"
+            android:text="@string/a_way_to_enjoy_bitter_and_sweet_of_life"
+            android:textSize="11sp"
+            android:textColor="#FF020202"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
+</RelativeLayout>

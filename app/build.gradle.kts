@@ -12,7 +12,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.cofee_shop"
-        minSdk = 24
+        minSdk = 28
         targetSdk = 36
 
         versionCode = 1
@@ -54,6 +54,7 @@ dependencies {
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
     implementation("com.google.android.material:material:1.12.0")
+    implementation(libs.androidx.core.splashscreen)
 
     // Hilt
     implementation(libs.hilt.android)
@@ -83,4 +84,7 @@ dependencies {
 
     // For parcelize
     implementation("org.jetbrains.kotlin:kotlin-parcelize-runtime:1.9.10")
+
+    //coil
+    implementation("io.coil-kt:coil:2.4.0")
 }

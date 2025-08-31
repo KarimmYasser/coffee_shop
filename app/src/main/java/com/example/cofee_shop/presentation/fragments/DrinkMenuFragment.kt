@@ -62,9 +62,12 @@ class DrinkMenuFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        coffeeAdapter = CoffeeAdapter { coffee ->
-            onCoffeeItemClicked(coffee)
-        }
+        coffeeAdapter = CoffeeAdapter(
+            { coffee ->
+                onCoffeeItemClicked(coffee)
+            },
+            false
+        )
 
         binding.coffeeRecyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())

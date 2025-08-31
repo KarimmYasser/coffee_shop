@@ -1,15 +1,19 @@
 package com.example.cofee_shop.data.repositories
 
 import com.example.cofee_shop.core.ApiResult
+import com.example.cofee_shop.data.local.database.dao.CoffeeDao
+import com.example.cofee_shop.data.local.database.entities.CoffeeEntity
 import com.example.cofee_shop.data.mappers.CoffeeMapper
 import com.example.cofee_shop.data.remote.api.CoffeeApiService
 import com.example.cofee_shop.domain.models.Coffee
 import com.example.cofee_shop.domain.repositories.CoffeeRepository
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton
 @Singleton
 class CoffeeRepositoryImpl @Inject constructor(
     private val apiService: CoffeeApiService
+    , private val coffeeDao: CoffeeDao
 ) : CoffeeRepository {
 
     private var cachedHotCoffees: List<Coffee> = emptyList()
@@ -120,5 +124,73 @@ class CoffeeRepositoryImpl @Inject constructor(
         } catch (e: Exception) {
             ApiResult.Failure(e)
         }
+    }
+
+    override suspend fun getDrinksByType(isHot: Boolean): Flow<List<CoffeeEntity>> {
+        return coffeeDao.getDrinksByType(isHot)
+    }
+
+    override suspend fun getAllDrinks(): Flow<List<CoffeeEntity>> {
+        // First, try to populate the database if it's empty
+        val currentCount = coffeeDao.getCount()
+        if (currentCount == 0) {
+            try {
+                // Fetch hot coffees from API
+                val hotCoffeesResult = getHotCoffees()
+                if (hotCoffeesResult is ApiResult.Success) {
+                    val hotEntities = hotCoffeesResult.data.map { coffee ->
+                        CoffeeEntity(
+                            id = coffee.id,
+                            title = coffee.title,
+                            description = coffee.description,
+                            ingredients = coffee.ingredients,
+                            imageUrl = coffee.image,
+                            isHot = true
+                        )
+                    }
+                    coffeeDao.insertDrinks(hotEntities)
+                }
+
+                // Fetch iced coffees from API
+                val icedCoffeesResult = getIcedCoffees()
+                if (icedCoffeesResult is ApiResult.Success) {
+                    val icedEntities = icedCoffeesResult.data.map { coffee ->
+                        CoffeeEntity(
+                            id = coffee.id + 1000, // Offset IDs to avoid conflicts
+                            title = coffee.title,
+                            description = coffee.description,
+                            ingredients = coffee.ingredients,
+                            imageUrl = coffee.image,
+                            isHot = false
+                        )
+                    }
+                    coffeeDao.insertDrinks(icedEntities)
+                }
+            } catch (e: Exception) {
+                // If API fails, continue with empty database
+            }
+        }
+
+        return coffeeDao.getAllDrinks()
+    }
+
+    override suspend fun getDrinkById(drinkId: Int): CoffeeEntity? {
+        return coffeeDao.getDrinkById(drinkId)
+    }
+
+    override suspend fun searchDrinks(query: String): Flow<List<CoffeeEntity>> {
+        return coffeeDao.searchDrinks(query)
+    }
+
+    override suspend fun insertDrinks(drinks: List<CoffeeEntity>) {
+        coffeeDao.insertDrinks(drinks)
+    }
+
+    override suspend fun clearAll() {
+        coffeeDao.clearAll()
+    }
+
+    override suspend fun getCount(): Int {
+        return coffeeDao.getCount()
     }
 }

@@ -5,5 +5,6 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class IsFavoriteUseCase @Inject constructor(FavoriteRepository: FavoriteRepository) {
+class IsFavoriteUseCase @Inject constructor(private val favoriteRepository: FavoriteRepository) {
+    suspend operator fun invoke(productId: Int) = favoriteRepository.isFavorite(productId)
 }

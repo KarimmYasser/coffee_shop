@@ -5,5 +5,8 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class SaveUserNameUseCase @Inject constructor(userRepository: UserRepository) {
+class SaveUserNameUseCase @Inject constructor(private val userRepository: UserRepository) {
+    suspend operator fun invoke(user: String) {
+        return userRepository.saveUser(user)
+    }
 }
