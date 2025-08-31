@@ -9,7 +9,8 @@
     <color name="background_light_cream">#FCF2D9</color>
     <color name="background_white">#FFFFFF</color>
     <color name="background_gray">#F5F5F5</color>
-
+    <color name="favorite_active">#FF5722</color> <!-- Red color for filled heart -->
+    <color name="favorite_inactive">#757575</color> <!-- Gray color for outline heart -->
     <color name="text_primary">#5D4037</color>
     <color name="text_secondary">#8D6E63</color>
     <color name="text_white">#FFFFFF</color>

@@ -31,4 +31,8 @@ class FavoriteRepositoryImpl @Inject constructor(
     override suspend fun getFavoriteIds(): Flow<List<Int>> {
         return favoriteDao.getFavoriteIds()
     }
+
+    override suspend fun getFavouriteById(drinkId: Int): FavoriteEntity? {
+        return favoriteDao.getFavoriteById(drinkId)
+    }
 }

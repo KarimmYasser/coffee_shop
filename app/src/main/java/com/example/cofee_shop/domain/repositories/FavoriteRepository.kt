@@ -9,4 +9,5 @@ interface FavoriteRepository {
     suspend fun addFavorite(favorite: FavoriteEntity)
     suspend fun removeFavorite(drinkId: Int)
     suspend fun getFavoriteIds(): Flow<List<Int>>
+    suspend fun getFavouriteById(drinkId: Int): FavoriteEntity?
 }
