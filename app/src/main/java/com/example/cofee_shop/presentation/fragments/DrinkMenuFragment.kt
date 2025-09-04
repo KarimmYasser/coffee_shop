@@ -63,15 +63,18 @@ class DrinkMenuFragment : Fragment() {
     }
 
     private fun onCoffeeAddClicked(coffee: Coffee) {
-        // Show confirmation dialog before adding to cart
-        showAddToCartConfirmation(coffee)
+        // Show Add to Cart vs Buy Now dialog
+        showOrderOptionsDialog(coffee)
     }
 
-    private fun showAddToCartConfirmation(coffee: Coffee) {
+    private fun showOrderOptionsDialog(coffee: Coffee) {
         AlertDialog.Builder(requireContext())
-            .setTitle("Add to Cart")
-            .setMessage("Add ${coffee.title} to your cart?")
-            .setPositiveButton("Add") { _, _ ->
+            .setTitle("Order ${coffee.title}")
+            .setMessage("Choose an option:")
+            .setPositiveButton("Buy Now") { _, _ ->
+                menuViewModel.buyNow(coffee)
+            }
+            .setNeutralButton("Add to Cart") { _, _ ->
                 menuViewModel.addCoffeeToCart(coffee)
             }
             .setNegativeButton("Cancel", null)
@@ -80,6 +83,11 @@ class DrinkMenuFragment : Fragment() {
 
     private fun navigateToCoffeeDetail(coffee: Coffee) {
         val action = DrinkMenuFragmentDirections.actionDrinkMenuFragmentToCoffeeDetailFragment(coffee)
+        findNavController().navigate(action)
+    }
+
+    private fun navigateToPayment(orderId: String) {
+        val action = DrinkMenuFragmentDirections.actionDrinkMenuFragmentToPaymentFragment(orderId)
         findNavController().navigate(action)
     }
 
@@ -168,6 +176,8 @@ class DrinkMenuFragment : Fragment() {
                 launch { observeErrorState() }
                 launch { observeAddToCartState() }
                 launch { observeAddToCartMessage() }
+                launch { observeOrderCreation() }
+                launch { observeCreatedOrderId() }
             }
         }
     }
@@ -209,8 +219,8 @@ class DrinkMenuFragment : Fragment() {
         menuViewModel.isAddingToCart.collect { isAddingToCart ->
             // Show progress when adding to cart
             if (isAddingToCart) {
-                showLoadingDialog()
-            } else {
+                showLoadingDialog("Adding to cart...")
+            } else if (!menuViewModel.isCreatingOrder.value) {
                 hideLoadingDialog()
             }
         }
@@ -221,6 +231,25 @@ class DrinkMenuFragment : Fragment() {
             message?.let {
                 Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
                 menuViewModel.clearAddToCartMessage()
+            }
+        }
+    }
+
+    private suspend fun observeOrderCreation() {
+        menuViewModel.isCreatingOrder.collect { isCreatingOrder ->
+            if (isCreatingOrder) {
+                showLoadingDialog("Creating order...")
+            } else if (!menuViewModel.isAddingToCart.value) {
+                hideLoadingDialog()
+            }
+        }
+    }
+
+    private suspend fun observeCreatedOrderId() {
+        menuViewModel.createdOrderId.collect { orderId ->
+            orderId?.let {
+                menuViewModel.clearCreatedOrderId()
+                navigateToPayment(it)
             }
         }
     }
@@ -299,13 +328,17 @@ class DrinkMenuFragment : Fragment() {
             hideErrorState()
             hideEmptyState()
         } else {
-            hideLoadingDialog()
+            // Only hide if not processing other operations
+            if (!menuViewModel.isAddingToCart.value && !menuViewModel.isCreatingOrder.value) {
+                hideLoadingDialog()
+            }
         }
     }
 
     private fun handleErrorState(errorMessage: String?) {
         if (errorMessage != null && !menuViewModel.isLoading.value) {
             showErrorState(errorMessage)
+            Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_LONG).show()
         } else {
             hideErrorState()
             if (binding.emptyStateSection.emptyStateContainer.visibility != View.VISIBLE) {
@@ -385,7 +418,7 @@ class DrinkMenuFragment : Fragment() {
         }
     }
 
-    private fun showLoadingDialog() {
+    private fun showLoadingDialog(message: String = "Loading...") {
         if (loadingDialog == null) {
             createLoadingDialog()
         }

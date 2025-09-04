@@ -35,4 +35,23 @@
 
     <color name="transparent">#00000000</color>
     <color name="semi_transparent_black">#80000000</color>
+
+
+    <!-- Tab Container Colors -->
+    <color name="tab_container_background">#F5F5F0</color>
+    <color name="tab_container_border">#E8E8E0</color>
+
+    <!-- Selected Tab Colors -->
+    <color name="selected_tab_background">#8B4513</color>
+    <color name="selected_tab_border">#7A3C0F</color>
+
+    <!-- Unselected Tab Colors -->
+
+    <!-- Coffee Theme Colors -->
+    <color name="coffee_brown_dark">#7A3C0F</color>
+    <color name="coffee_cream">#F5F5F0</color>
+    <color name="coffee_light_brown">#D2691E</color>
+
+    <!-- Background Colors -->
+    <color name="main_background">#F8F6E8</color>
 </resources>
