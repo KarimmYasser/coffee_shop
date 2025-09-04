@@ -15,6 +15,7 @@
     <color name="text_secondary">#8D6E63</color>
     <color name="text_white">#FFFFFF</color>
     <color name="text_hint">#BDBDBD</color>
+    <color name="gray_400">#BDBDBD</color>
     <color name="favorite_red">#FF6B6B</color>
 
     <color name="selected_tab_bg">#834D1E</color>
