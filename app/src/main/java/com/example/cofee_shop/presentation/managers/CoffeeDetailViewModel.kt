@@ -67,8 +67,12 @@ class CoffeeDetailViewModel @Inject constructor(
                     // Add to favorites
                     val favoriteEntity = FavoriteEntity(
                         drinkId = coffee.id,
-                        addedAt =  System.currentTimeMillis(
-                        )
+                        title = coffee.title,
+                        price = coffee.price,
+                        imageUrl = coffee.image,
+                        description = coffee.description,
+                        ingredients = coffee.ingredients,
+                        isHot = coffee.isHot
 
                     )
                     addFavoriteUseCase(favoriteEntity)
