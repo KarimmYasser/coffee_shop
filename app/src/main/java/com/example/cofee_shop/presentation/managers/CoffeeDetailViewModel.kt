@@ -57,14 +57,12 @@ class CoffeeDetailViewModel @Inject constructor(
                 _isLoading.value = true
 
                 if (_isFavorite.value) {
-                    // Remove from favorites
                     removeFavoriteUseCase(coffee.id)
                     _isFavorite.value = false
                     _uiState.value = _uiState.value.copy(
                         message = "Removed from favorites"
                     )
                 } else {
-                    // Add to favorites
                     val favoriteEntity = FavoriteEntity(
                         drinkId = coffee.id,
                         title = coffee.title,

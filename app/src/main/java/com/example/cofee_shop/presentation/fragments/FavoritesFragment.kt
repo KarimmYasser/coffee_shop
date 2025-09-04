@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Rect
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,11 +12,13 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cofee_shop.R
 import com.example.cofee_shop.adapter.FavoritesAdapter
+import com.example.cofee_shop.domain.models.Coffee
 import com.example.cofee_shop.presentation.viewmodel.FavoritesViewModel
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -51,19 +54,24 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
         recyclerView.layoutManager = GridLayoutManager(requireContext(), 2).apply {
             spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
                 override fun getSpanSize(position: Int): Int {
-                    return 1 // Each item takes 1 span
+                    return 1
                 }
             }
         }
 
-        adapter = FavoritesAdapter(emptyList()) { drinkId ->
-            viewModel.removeFavorite(drinkId)
-            showSnackbar("Removed from favorites")
-        }
+        adapter = FavoritesAdapter(
+            items = emptyList(),
+            onRemoveClick = { drinkId ->
+                viewModel.removeFavorite(drinkId)
+                showSnackbar("Removed from favorites")
+            },
+            onItemClick = { coffee ->
+                viewModel.onCoffeeClicked(coffee)
+            }
+        )
 
         recyclerView.adapter = adapter
 
-        // Add item decoration for spacing
         val spacing = resources.getDimensionPixelSize(R.dimen.grid_spacing)
         recyclerView.addItemDecoration(GridSpacingItemDecoration(2, spacing, true))
     }
@@ -82,6 +90,24 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
         }
+
+        viewModel.navigateToDetail.observe(viewLifecycleOwner) { coffee ->
+            coffee?.let {
+                navigateToDetail(it)
+                viewModel.onNavigateToDetailComplete()
+            }
+        }
+    }
+
+    private fun navigateToDetail(coffee: Coffee) {
+        try {
+            val action = FavoritesFragmentDirections
+                .actionFavoritesFragmentToCoffeeDetailFragment(coffee)
+            findNavController().navigate(action)
+        } catch (e: Exception) {
+            Log.e("FavoritesFragment", "Navigation error: ${e.message}")
+            showSnackbar("Unable to open coffee details")
+        }
     }
 
     private fun showEmptyState() {
@@ -97,7 +123,7 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
     }
 }
 
-// 10. GridSpacingItemDecoration for proper spacing
+
 class GridSpacingItemDecoration(
     private val spanCount: Int,
     private val spacing: Int,
@@ -131,7 +157,6 @@ class GridSpacingItemDecoration(
     }
 }
 
-// 11. StatusBarUtils helper
 object StatusBarUtils {
     @SuppressLint("InternalInsetResource")
     fun getStatusBarHeight(context: Context): Int {

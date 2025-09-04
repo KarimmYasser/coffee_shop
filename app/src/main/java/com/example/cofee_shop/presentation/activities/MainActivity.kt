@@ -50,9 +50,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupCustomUnderline(navController: NavController) {
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            // Hide bottom nav on details screen, show on others
+
             when (destination.id) {
-                R.id.coffeeDetailFragment -> { // Replace with your actual details fragment ID
+                R.id.coffeeDetailFragment -> {
                     binding.bottomNav.visibility = View.GONE
                 }
                 R.id.homeFragment,
@@ -70,13 +70,42 @@ class MainActivity : AppCompatActivity() {
                     addUnderlineToSelectedItem(selectedIndex)
                 }
                 else -> {
-                    // For any other fragments, hide the bottom nav
                     binding.bottomNav.visibility = View.GONE
                 }
             }
         }
 
         addUnderlineToSelectedItem(0)
+    }
+
+    private fun setupBottomNavClickBehavior(navController: NavController) {
+        binding.bottomNav.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.homeFragment -> {
+                    navController.popBackStack(R.id.homeFragment, false)
+                    true
+                }
+                R.id.drinkMenuFragment -> {
+                    if (navController.currentDestination?.id != R.id.drinkMenuFragment) {
+                        navController.navigate(R.id.drinkMenuFragment)
+                    }
+                    true
+                }
+                R.id.orderFragment -> {
+                    if (navController.currentDestination?.id != R.id.orderFragment) {
+                        navController.navigate(R.id.orderFragment)
+                    }
+                    true
+                }
+                R.id.favoritesFragment -> {
+                    if (navController.currentDestination?.id != R.id.favoritesFragment) {
+                        navController.navigate(R.id.favoritesFragment)
+                    }
+                    true
+                }
+                else -> false
+            }
+        }
     }
 
     @SuppressLint("RestrictedApi")
