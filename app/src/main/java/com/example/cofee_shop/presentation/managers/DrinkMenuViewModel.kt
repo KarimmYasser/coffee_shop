@@ -35,14 +35,12 @@ class MenuViewModel @Inject constructor(
     private val _searchQuery = MutableStateFlow("")
     val searchQuery: StateFlow<String> = _searchQuery.asStateFlow()
 
-    // UI state
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
 
     private val _errorMessage = MutableStateFlow<String?>(null)
     val errorMessage: StateFlow<String?> = _errorMessage.asStateFlow()
 
-    // Add to cart state
     private val _isAddingToCart = MutableStateFlow(false)
     val isAddingToCart: StateFlow<Boolean> = _isAddingToCart.asStateFlow()
 
@@ -150,14 +148,12 @@ class MenuViewModel @Inject constructor(
         }
     }
 
-    // New function to add coffee to cart/order
     fun addCoffeeToCart(coffee: Coffee, quantity: Int = 1) {
         viewModelScope.launch {
             try {
                 _isAddingToCart.value = true
                 _errorMessage.value = null
 
-                // Create order entity
                 val order = OrderEntity(
                     orderId = generateOrderId(),
                     totalAmount = coffee.price * quantity,
@@ -165,7 +161,6 @@ class MenuViewModel @Inject constructor(
                     placedAt = System.currentTimeMillis(),
                 )
 
-                // Create order item entity
                 val orderItem = OrderItemEntity(
                     orderItemId = generateOrderItemId(),
                     orderId = order.orderId,
@@ -175,7 +170,6 @@ class MenuViewModel @Inject constructor(
                     price = coffee.price,
                 )
 
-                // Place the order
                 placeOrderUseCase(order, listOf(orderItem))
 
                 _addToCartMessage.value = "Added ${coffee.title} to cart successfully!"
@@ -196,11 +190,7 @@ class MenuViewModel @Inject constructor(
         return "item_${System.currentTimeMillis()}_${(1000..9999).random()}"
     }
 
-    private fun getCurrentUserId(): String {
-        // TODO: Implement user session management
-        // This should return the actual logged-in user ID
-        return "default_user_id"
-    }
+
 }
 
 enum class CoffeeCategory {

@@ -19,7 +19,6 @@ interface FavoriteDao {
     @Query("SELECT * FROM favorites WHERE drinkId = :drinkId")
     suspend fun getFavoriteById(drinkId: Int): FavoriteEntity?
 
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addFavorite(favorite: FavoriteEntity)
 
@@ -28,4 +27,7 @@ interface FavoriteDao {
 
     @Query("SELECT drinkId FROM favorites")
     fun getFavoriteIds(): Flow<List<Int>>
+
+    @Query("DELETE FROM favorites")
+    suspend fun clearAllFavorites()
 }

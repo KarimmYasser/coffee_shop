@@ -1,10 +1,11 @@
 package com.example.cofee_shop.domain.usecases.favourites
 
+import com.example.cofee_shop.data.local.database.entities.FavoriteEntity
 import com.example.cofee_shop.domain.repositories.FavoriteRepository
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class IsFavoriteUseCase @Inject constructor(private val favoriteRepository: FavoriteRepository) {
-    suspend operator fun invoke(productId: Int) = favoriteRepository.getFavouriteById(productId)
+    suspend operator fun invoke(productId: Int): FavoriteEntity? = favoriteRepository.getFavoriteById(productId)
 }

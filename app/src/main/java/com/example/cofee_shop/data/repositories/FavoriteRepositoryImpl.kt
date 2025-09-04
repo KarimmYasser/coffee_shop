@@ -6,7 +6,6 @@ import com.example.cofee_shop.domain.repositories.FavoriteRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton
-
 @Singleton
 class FavoriteRepositoryImpl @Inject constructor(
     private val favoriteDao: FavoriteDao
@@ -32,7 +31,11 @@ class FavoriteRepositoryImpl @Inject constructor(
         return favoriteDao.getFavoriteIds()
     }
 
-    override suspend fun getFavouriteById(drinkId: Int): FavoriteEntity? {
+    override suspend fun getFavoriteById(drinkId: Int): FavoriteEntity? {
         return favoriteDao.getFavoriteById(drinkId)
+    }
+
+    override suspend fun clearAllFavorites() {
+        favoriteDao.clearAllFavorites()
     }
 }

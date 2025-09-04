@@ -37,7 +37,13 @@
         android:id="@+id/favoritesFragment"
         android:name="com.example.cofee_shop.presentation.fragments.FavoritesFragment"
         android:label="Favorites"
-        tools:layout="@layout/fragment_favorites" />
+        tools:layout="@layout/fragment_favorites">
+
+        <!-- Add navigation action from favorites to detail -->
+        <action
+            android:id="@+id/action_favoritesFragment_to_coffeeDetailFragment"
+            app:destination="@id/coffeeDetailFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/coffeeDetailFragment"
