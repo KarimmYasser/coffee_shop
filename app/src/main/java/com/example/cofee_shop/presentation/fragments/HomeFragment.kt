@@ -1,7 +1,11 @@
 package com.example.cofee_shop.presentation.fragments
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.Network
+import android.net.NetworkCapabilities
+import android.net.NetworkRequest
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -27,16 +31,58 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private val homeViewModel: HomeViewModel by viewModels()
     private lateinit var coffeeAdapter: CoffeeAdapter
 
+    private lateinit var connectivityManager: ConnectivityManager
+    private var networkCallback: ConnectivityManager.NetworkCallback? = null
+    private var isNetworkAvailable = false
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentHomeBinding.bind(view)
+
+        setupNetworkMonitoring()
         setupUI()
         observeViewModel()
+    }
+
+    private fun setupNetworkMonitoring() {
+        connectivityManager = requireContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+        isNetworkAvailable = isNetworkConnected()
+
+        networkCallback = object : ConnectivityManager.NetworkCallback() {
+            override fun onAvailable(network: Network) {
+                super.onAvailable(network)
+                if (!isNetworkAvailable) {
+                    isNetworkAvailable = true
+                    activity?.runOnUiThread {
+                        homeViewModel.retryLoadingData()
+                    }
+                }
+            }
+
+            override fun onLost(network: Network) {
+                super.onLost(network)
+                isNetworkAvailable = false
+            }
+        }
+
+        val networkRequest = NetworkRequest.Builder()
+            .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+            .build()
+
+        connectivityManager.registerNetworkCallback(networkRequest, networkCallback!!)
+    }
+
+    private fun isNetworkConnected(): Boolean {
+        val activeNetwork = connectivityManager.activeNetwork ?: return false
+        val networkCapabilities = connectivityManager.getNetworkCapabilities(activeNetwork) ?: return false
+        return networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
     }
 
     private fun setupUI() {
         setupRecyclerView()
         setupClickListeners()
+        setupErrorUI()
     }
 
     private fun setupRecyclerView() {
@@ -75,6 +121,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
     }
 
+    private fun setupErrorUI() {
+        binding.errorLayout?.btnRetry?.setOnClickListener {
+            homeViewModel.retryLoadingData()
+        }
+    }
+
     private fun observeViewModel() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -88,20 +140,41 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private suspend fun observeCoffeeList() {
         homeViewModel.coffeeList.collect { coffeeList ->
-            coffeeAdapter.submitList(coffeeList)
+            if (coffeeList.isNotEmpty()) {
+                showContent()
+                coffeeAdapter.submitList(coffeeList)
+            }
         }
     }
 
     private suspend fun observeLoadingState() {
         homeViewModel.isLoading.collect { isLoading ->
-            // Handle loading state
+            if (isLoading) {
+                showLoading()
+            }
         }
     }
 
     private suspend fun observeErrorState() {
-        homeViewModel.errorMessage.collect { errorMessage ->
-            errorMessage?.let {
-                Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
+        homeViewModel.errorState.collect { errorState ->
+            when (errorState) {
+                is HomeViewModel.ErrorState.None -> {
+                    showContent()
+                }
+                is HomeViewModel.ErrorState.NetworkError -> {
+                    if (homeViewModel.coffeeList.value.isEmpty()) {
+                        showNetworkError()
+                    } else {
+                        showNetworkErrorToast()
+                    }
+                }
+                is HomeViewModel.ErrorState.GenericError -> {
+                    if (homeViewModel.coffeeList.value.isEmpty()) {
+                        showGenericError(errorState.message)
+                    } else {
+                        Toast.makeText(requireContext(), errorState.message, Toast.LENGTH_LONG).show()
+                    }
+                }
             }
         }
     }
@@ -110,6 +183,56 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         homeViewModel.userName.collect { userName ->
             updateGreetingMessage(userName)
         }
+    }
+
+    private fun showContent() {
+        binding.mainContent.visibility = View.VISIBLE
+        binding.loadingLayout?.root?.visibility = View.GONE
+        binding.errorLayout?.root?.visibility = View.GONE
+    }
+
+    private fun showLoading() {
+        if (homeViewModel.coffeeList.value.isEmpty()) {
+            binding.mainContent.visibility = View.GONE
+            binding.errorLayout?.root?.visibility = View.GONE
+            binding.loadingLayout?.root?.visibility = View.VISIBLE
+        }
+    }
+
+    private fun showNetworkError() {
+        binding.mainContent.visibility = View.GONE
+        binding.loadingLayout?.root?.visibility = View.GONE
+        binding.errorLayout?.root?.visibility = View.VISIBLE
+
+        binding.errorLayout?.apply {
+            ivErrorIcon.setImageResource(R.drawable.ic_no_wifi)
+            tvErrorTitle.text = getString(R.string.no_internet_connection)
+            tvErrorMessage.text = getString(R.string.no_internet_message)
+            btnRetry.text = getString(R.string.retry)
+            btnRetry.visibility = View.VISIBLE
+        }
+    }
+
+    private fun showGenericError(message: String) {
+        binding.mainContent.visibility = View.GONE
+        binding.loadingLayout?.root?.visibility = View.GONE
+        binding.errorLayout?.root?.visibility = View.VISIBLE
+
+        binding.errorLayout?.apply {
+            ivErrorIcon.setImageResource(R.drawable.ic_error)
+            tvErrorTitle.text = getString(R.string.something_went_wrong)
+            tvErrorMessage.text = message
+            btnRetry.text = getString(R.string.try_again)
+            btnRetry.visibility = View.VISIBLE
+        }
+    }
+
+    private fun showNetworkErrorToast() {
+        Toast.makeText(
+            requireContext(),
+            getString(R.string.network_error_toast),
+            Toast.LENGTH_SHORT
+        ).show()
     }
 
     private fun updateGreetingMessage(userName: String?) {
@@ -149,6 +272,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        networkCallback?.let { connectivityManager.unregisterNetworkCallback(it) }
         _binding = null
     }
 
