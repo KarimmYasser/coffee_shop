@@ -1,9 +1,11 @@
 package com.example.cofee_shop.presentation.fragments
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContextCompat
@@ -72,36 +74,96 @@ class CoffeeDetailFragment : Fragment(R.layout.fragment_coffee_detail) {
         }
 
         binding.btnBuyNow.setOnClickListener {
-            viewModel.buyNow()
+            showOrderDialog()
         }
+    }
+
+    private fun showOrderDialog() {
+        val currentQuantity = viewModel.quantity.value
+        val coffee = viewModel.uiState.value.coffee ?: return
+        val totalPrice = coffee.price * 3000 * currentQuantity
+        val formatter = NumberFormat.getNumberInstance(Locale("id", "ID"))
+
+        val dialogView = LayoutInflater.from(requireContext())
+            .inflate(R.layout.order_confirmation_dialog, null)
+
+        val dialog = AlertDialog.Builder(requireContext())
+            .setView(dialogView)
+            .setCancelable(true)
+            .create()
+
+        dialogView.findViewById<android.widget.TextView>(R.id.tv_dialog_coffee_name)?.text = coffee.title
+        dialogView.findViewById<android.widget.TextView>(R.id.tv_dialog_quantity)?.text = "Quantity: $currentQuantity"
+        dialogView.findViewById<android.widget.TextView>(R.id.tv_dialog_total_price)?.text = "Total: Rp ${formatter.format(totalPrice.toInt())}"
+
+        dialogView.findViewById<android.widget.Button>(R.id.btn_cancel_order)?.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialogView.findViewById<android.widget.Button>(R.id.btn_confirm_order)?.setOnClickListener {
+            dialog.dismiss()
+            createAndProcessOrder(currentQuantity, totalPrice)
+        }
+
+        dialog.show()
+    }
+
+    private fun createAndProcessOrder(quantity: Int, totalPrice: Double) {
+        val loadingDialog = createLoadingDialog()
+        loadingDialog.show()
+
+        viewModel.createOrder(
+            coffee = coffee,
+            quantity = quantity,
+            totalPrice = totalPrice,
+            onOrderCreated = { orderId ->
+                loadingDialog.dismiss()
+                // Navigate to payment fragment
+                val action = CoffeeDetailFragmentDirections
+                    .actionCoffeeDetailFragmentToPaymentFragment(orderId)
+                findNavController().navigate(action)
+            },
+            onError = { error ->
+                loadingDialog.dismiss()
+                Toast.makeText(requireContext(), "Failed to create order: $error", Toast.LENGTH_LONG).show()
+            }
+        )
+    }
+
+    private fun createLoadingDialog(): AlertDialog {
+        val dialogView = LayoutInflater.from(requireContext())
+            .inflate(R.layout.loading_dialog, null)
+
+        val dialog = AlertDialog.Builder(requireContext())
+            .setView(dialogView)
+            .setCancelable(false)
+            .create()
+
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        return dialog
     }
 
     private fun observeViewModel() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                // Observe quantity changes
                 launch {
                     viewModel.quantity.collect { quantity ->
                         binding.tvQuantity.text = quantity.toString()
                     }
                 }
 
-                // Observe favorite state changes
                 launch {
                     viewModel.isFavorite.collect { isFavorite ->
                         updateFavoriteIcon(isFavorite)
                     }
                 }
 
-                // Observe loading state
                 launch {
                     viewModel.isLoading.collect { isLoading ->
                         binding.btnFavorite.isEnabled = !isLoading
-                        // You can add a loading indicator here if needed
                     }
                 }
 
-                // Observe UI state
                 launch {
                     viewModel.uiState.collect { uiState ->
                         // Handle messages

@@ -57,6 +57,10 @@
         <argument
             android:name="coffee"
             app:argType="com.example.cofee_shop.domain.models.Coffee" />
+
+        <action
+            android:id="@+id/action_coffeeDetailFragment_to_paymentFragment"
+            app:destination="@id/paymentFragment" />
     </fragment>
 
     <fragment
@@ -72,7 +76,7 @@
         <action
             android:id="@+id/action_paymentFragment_to_orderFragment"
             app:destination="@id/orderFragment"
-            app:popUpTo="@id/drinkMenuFragment"
+            app:popUpTo="@id/homeFragment"
             app:popUpToInclusive="false" />
     </fragment>
 
