@@ -7,6 +7,7 @@ import android.graphics.drawable.shapes.RectShape
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
+import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -49,14 +50,28 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupCustomUnderline(navController: NavController) {
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            val selectedIndex = when (destination.id) {
-                R.id.homeFragment -> 0
-                R.id.drinkMenuFragment -> 1
-                R.id.orderFragment -> 2
-                R.id.favoritesFragment -> 3
-                else -> 0
+            when (destination.id) {
+                R.id.coffeeDetailFragment -> {
+                    binding.bottomNav.visibility = View.GONE
+                }
+                R.id.homeFragment,
+                R.id.drinkMenuFragment,
+                R.id.orderFragment,
+                R.id.favoritesFragment -> {
+                    binding.bottomNav.visibility = View.VISIBLE
+                    val selectedIndex = when (destination.id) {
+                        R.id.homeFragment -> 0
+                        R.id.drinkMenuFragment -> 1
+                        R.id.orderFragment -> 2
+                        R.id.favoritesFragment -> 3
+                        else -> 0
+                    }
+                    addUnderlineToSelectedItem(selectedIndex)
+                }
+                else -> {
+                    binding.bottomNav.visibility = View.GONE
+                }
             }
-            addUnderlineToSelectedItem(selectedIndex)
         }
 
         addUnderlineToSelectedItem(0)
