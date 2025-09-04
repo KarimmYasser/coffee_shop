@@ -12,7 +12,30 @@
         <item name="android:textFontWeight">700</item>
         <item name="fontFamily">@font/inter_semibold</item>
     </style>
+    <style name="TabButtonStyle">
+        <item name="android:background">@drawable/unselected_tab_background</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/unselected_tab_text</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:layout_margin">@dimen/margin_tiny</item>
+    </style>
 
+    <!-- Alternative with state selector -->
+    <style name="TabButtonStyleWithSelector">
+        <item name="android:background">@drawable/tab_button_selector</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/tab_text_selector</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:layout_margin">@dimen/margin_tiny</item>
+    </style>
     <style name="TextStyle.Title" parent="TextStyle">
         <item name="android:textSize">@dimen/text_size_title</item>
         <item name="android:textColor">@color/text_primary</item>
@@ -59,15 +82,7 @@
     </style>
 
     <!-- Tab Button Styles -->
-    <style name="TabButtonStyle" parent="TextStyle.Body">
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">@dimen/tab_button_height</item>
-        <item name="android:layout_weight">1</item>
-        <item name="android:gravity">center</item>
-        <item name="android:fontFamily">sans-serif-medium</item>
-        <item name="android:clickable">true</item>
-        <item name="android:focusable">true</item>
-    </style>
+
 
     <style name="TabButtonStyle.Selected">
         <item name="android:background">@drawable/selected_tab_background</item>

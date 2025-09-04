@@ -11,5 +11,6 @@ data class OrderItemEntity(
     val coffeeId: String,
     val coffeeName: String,
     val quantity: Int,
-    val price: Double
+    val price: Double,
+    val imageUrl: String? = null
 )

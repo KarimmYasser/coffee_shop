@@ -1,71 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/CardStyle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/margin_small"
-    app:cardCornerRadius="@dimen/radius_large"
-    app:cardUseCompatPadding="true"
-    android:foreground="?attr/selectableItemBackground"
-    android:clickable="true"
-    android:focusable="true">
+    android:layout_marginBottom="@dimen/margin_medium"
+    android:layout_marginStart="@dimen/margin_small"
+    android:layout_marginEnd="@dimen/margin_small">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:padding="@dimen/padding_medium">
 
-        <!-- Order ID -->
-        <TextView
-            android:id="@+id/textOrderId"
-            android:layout_width="0dp"
+        <!-- Order Header -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Order #12345"
-            android:textStyle="bold"
-            android:textSize="16sp"
-            android:textColor="@color/text_primary"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/textOrderTotal"
-            app:layout_constraintHorizontal_bias="0" />
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
 
-        <!-- Total -->
-        <TextView
-            android:id="@+id/textOrderTotal"
-            android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textOrderId"
+                    style="@style/TextStyle.Subtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="Order #123456" />
+
+                <TextView
+                    android:id="@+id/textOrderDate"
+                    style="@style/TextStyle.BodySecondary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_tiny"
+                    tools:text="04/02" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="end">
+
+                <TextView
+                    android:id="@+id/textOrderTotal"
+                    style="@style/TextStyle.Body"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-medium"
+                    tools:text="Rp 24,000" />
+
+                <TextView
+                    android:id="@+id/textItemCount"
+                    style="@style/TextStyle.BodySecondary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_tiny"
+                    tools:text="2 items" />
+
+            </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/buttonDelete"
+                android:layout_width="@dimen/icon_size_small"
+                android:layout_height="@dimen/icon_size_small"
+                android:layout_marginStart="@dimen/margin_small"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_close"
+                android:contentDescription="Delete order"
+                app:tint="@android:color/holo_red_dark" />
+
+        </LinearLayout>
+
+        <!-- Status Row -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="$12.50"
-            android:textStyle="bold"
-            android:textSize="15sp"
-            android:textColor="@color/text_primary"
-            app:layout_constraintTop_toTopOf="@+id/textOrderId"
-            app:layout_constraintEnd_toEndOf="parent" />
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/margin_small"
+            android:gravity="center_vertical">
 
-        <!-- Date & Time -->
-        <TextView
-            android:id="@+id/textOrderDate"
-            android:layout_width="0dp"
+
+
+
+
+        </LinearLayout>
+
+        <!-- Order Items -->
+        <LinearLayout
+            android:id="@+id/orderItemsContainer"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Mon, 21 Aug 2025 • 10:45 AM"
-            android:textSize="13sp"
-            android:textColor="@color/text_secondary"
-            app:layout_constraintTop_toBottomOf="@+id/textOrderId"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="@dimen/margin_xsmall" />
+            android:orientation="vertical"
+            android:layout_marginTop="@dimen/margin_medium" />
 
-        <!-- Items Count -->
-        <TextView
-            android:id="@+id/textItemCount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="3 items"
-            android:textSize="13sp"
-            android:textColor="@color/text_secondary"
-            app:layout_constraintTop_toBottomOf="@+id/textOrderDate"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="@dimen/margin_xsmall"
-            android:layout_marginBottom="@dimen/margin_small" />
+    </LinearLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

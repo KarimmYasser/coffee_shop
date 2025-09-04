@@ -1,16 +1,16 @@
 package com.example.cofee_shop.domain.usecases.orders
 
 import com.example.cofee_shop.data.local.database.entities.OrderEntity
-import com.example.cofee_shop.data.local.database.entities.OrderItemEntity
 import com.example.cofee_shop.domain.repositories.OrderRepository
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class PlaceOrderUseCase @Inject constructor(
+class GetRecentOrdersUseCase @Inject constructor(
     private val orderRepository: OrderRepository
 ) {
-    suspend operator fun invoke(order: OrderEntity, items: List<OrderItemEntity>) {
-        orderRepository.placeOrder(order, items)
+    suspend operator fun invoke(): Flow<List<OrderEntity>> {
+        return orderRepository.getRecentOrders()
     }
 }

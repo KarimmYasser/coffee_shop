@@ -47,6 +47,12 @@ class MenuViewModel @Inject constructor(
     private val _addToCartMessage = MutableStateFlow<String?>(null)
     val addToCartMessage: StateFlow<String?> = _addToCartMessage.asStateFlow()
 
+    private val _isCreatingOrder = MutableStateFlow(false)
+    val isCreatingOrder: StateFlow<Boolean> = _isCreatingOrder.asStateFlow()
+
+    private val _createdOrderId = MutableStateFlow<String?>(null)
+    val createdOrderId: StateFlow<String?> = _createdOrderId.asStateFlow()
+
     val filteredCoffeeList: StateFlow<List<Coffee>> = combine(
         _hotCoffeeList,
         _icedCoffeeList,
@@ -141,6 +147,10 @@ class MenuViewModel @Inject constructor(
         _addToCartMessage.value = null
     }
 
+    fun clearCreatedOrderId() {
+        _createdOrderId.value = null
+    }
+
     fun refreshCurrentCategory() {
         when (_currentCategory.value) {
             CoffeeCategory.HOT -> loadHotCoffee()
@@ -148,6 +158,7 @@ class MenuViewModel @Inject constructor(
         }
     }
 
+    // Add to cart functionality (existing)
     fun addCoffeeToCart(coffee: Coffee, quantity: Int = 1) {
         viewModelScope.launch {
             try {
@@ -156,9 +167,11 @@ class MenuViewModel @Inject constructor(
 
                 val order = OrderEntity(
                     orderId = generateOrderId(),
-                    totalAmount = coffee.price * quantity,
+                    totalAmount = calculateTotalAmount(coffee.price * quantity),
                     status = "pending",
+                    paymentStatus = "unpaid",
                     placedAt = System.currentTimeMillis(),
+                    subtotal = coffee.price * quantity
                 )
 
                 val orderItem = OrderItemEntity(
@@ -168,6 +181,7 @@ class MenuViewModel @Inject constructor(
                     coffeeName = coffee.title,
                     quantity = quantity,
                     price = coffee.price,
+                    imageUrl = coffee.image
                 )
 
                 placeOrderUseCase(order, listOf(orderItem))
@@ -182,6 +196,54 @@ class MenuViewModel @Inject constructor(
         }
     }
 
+    // Buy now functionality (creates order and navigates to payment)
+    fun buyNow(coffee: Coffee, quantity: Int = 1) {
+        viewModelScope.launch {
+            try {
+                _isCreatingOrder.value = true
+                _errorMessage.value = null
+
+                val orderId = generateOrderId()
+                val subtotal = coffee.price * quantity
+                val totalAmount = calculateTotalAmount(subtotal)
+
+                val order = OrderEntity(
+                    orderId = orderId,
+                    totalAmount = totalAmount,
+                    status = "pending",
+                    paymentStatus = "unpaid",
+                    placedAt = System.currentTimeMillis(),
+                    subtotal = subtotal
+                )
+
+                val orderItem = OrderItemEntity(
+                    orderItemId = generateOrderItemId(),
+                    orderId = orderId,
+                    coffeeId = coffee.id.toString(),
+                    coffeeName = coffee.title,
+                    quantity = quantity,
+                    price = coffee.price,
+                    imageUrl = coffee.image
+                )
+
+                placeOrderUseCase(order, listOf(orderItem))
+
+                _createdOrderId.value = orderId
+                _isCreatingOrder.value = false
+
+            } catch (e: Exception) {
+                _errorMessage.value = "Failed to create order: ${e.localizedMessage}"
+                _isCreatingOrder.value = false
+            }
+        }
+    }
+
+    private fun calculateTotalAmount(subtotal: Double): Double {
+        val deliveryFee = 3000.0
+        val packagingFee = 5000.0
+        return subtotal + deliveryFee + packagingFee
+    }
+
     private fun generateOrderId(): String {
         return "order_${System.currentTimeMillis()}_${(1000..9999).random()}"
     }
@@ -189,8 +251,6 @@ class MenuViewModel @Inject constructor(
     private fun generateOrderItemId(): String {
         return "item_${System.currentTimeMillis()}_${(1000..9999).random()}"
     }
-
-
 }
 
 enum class CoffeeCategory {

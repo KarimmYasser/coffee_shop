@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -21,10 +20,10 @@
             android:id="@+id/headerSection"
             layout="@layout/component_header_section" />
 
-
+        <!-- Tab Layout for Recently/Past Orders -->
         <include
-            android:id="@+id/searchSection"
-            layout="@layout/component_search_bar" />
+            android:id="@+id/tabLayout"
+            layout="@layout/component_order_tabs" />
 
     </LinearLayout>
 
@@ -52,14 +51,5 @@
             layout="@layout/component_error_state" />
 
     </FrameLayout>
-
-
-    <Button
-        android:id="@+id/btnPlaceOrder"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Place Order"
-        android:layout_margin="@dimen/margin_medium"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
 
 </LinearLayout>

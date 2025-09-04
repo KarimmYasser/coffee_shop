@@ -8,11 +8,17 @@
 
     <TextView
         android:id="@+id/coldButton"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
         style="@style/TabButtonStyle.Selected"
         android:text="@string/cold" />
 
     <TextView
         android:id="@+id/hotButton"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
         style="@style/TabButtonStyle.Unselected"
         android:text="@string/hot" />
 

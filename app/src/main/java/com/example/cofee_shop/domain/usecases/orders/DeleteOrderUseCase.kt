@@ -5,8 +5,10 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class DeleteOrderUseCase @Inject constructor(private val orderRepository: OrderRepository) {
+class DeleteOrderUseCase @Inject constructor(
+    private val orderRepository: OrderRepository
+) {
     suspend operator fun invoke(orderId: String) {
-        return orderRepository.deleteOrder(orderId)
+        orderRepository.deleteOrder(orderId)
     }
 }
