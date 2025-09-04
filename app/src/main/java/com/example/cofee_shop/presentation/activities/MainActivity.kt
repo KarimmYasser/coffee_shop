@@ -50,6 +50,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupCustomUnderline(navController: NavController) {
         navController.addOnDestinationChangedListener { _, destination, _ ->
+
             when (destination.id) {
                 R.id.coffeeDetailFragment -> {
                     binding.bottomNav.visibility = View.GONE
@@ -77,6 +78,36 @@ class MainActivity : AppCompatActivity() {
         addUnderlineToSelectedItem(0)
     }
 
+    private fun setupBottomNavClickBehavior(navController: NavController) {
+        binding.bottomNav.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.homeFragment -> {
+                    navController.popBackStack(R.id.homeFragment, false)
+                    true
+                }
+                R.id.drinkMenuFragment -> {
+                    if (navController.currentDestination?.id != R.id.drinkMenuFragment) {
+                        navController.navigate(R.id.drinkMenuFragment)
+                    }
+                    true
+                }
+                R.id.orderFragment -> {
+                    if (navController.currentDestination?.id != R.id.orderFragment) {
+                        navController.navigate(R.id.orderFragment)
+                    }
+                    true
+                }
+                R.id.favoritesFragment -> {
+                    if (navController.currentDestination?.id != R.id.favoritesFragment) {
+                        navController.navigate(R.id.favoritesFragment)
+                    }
+                    true
+                }
+                else -> false
+            }
+        }
+    }
+
     @SuppressLint("RestrictedApi")
     private fun addUnderlineToSelectedItem(selectedIndex: Int) {
         val bottomNav = binding.bottomNav
@@ -102,6 +133,6 @@ class MainActivity : AppCompatActivity() {
             } else {
                 item.background = null
             }
+            }
         }
-    }
 }

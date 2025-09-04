@@ -24,14 +24,12 @@ class HomeViewModel @Inject constructor(
     private val _allCoffeeList = MutableStateFlow<List<Coffee>>(emptyList())
     val coffeeList: StateFlow<List<Coffee>> = _allCoffeeList.asStateFlow()
 
-    // UI state
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
 
     private val _errorState = MutableStateFlow<ErrorState>(ErrorState.None)
     val errorState: StateFlow<ErrorState> = _errorState.asStateFlow()
 
-    // Username state
     private val _userName = MutableStateFlow<String?>(null)
     val userName: StateFlow<String?> = _userName.asStateFlow()
 
