@@ -104,14 +104,12 @@ class OrderViewModel @Inject constructor(
 
     private fun loadOrderItemsForOrders(orders: List<OrderEntity>) {
         viewModelScope.launch {
-            val itemsMap = _orderItems.value.toMutableMap()
-
-            orders.forEach { order ->
+            val itemsMap = mutableMapOf<String, List<OrderItemEntity>>()
+            for (order in orders) {
                 try {
                     val items = getOrderItemsUseCase(order.orderId)
                     itemsMap[order.orderId] = items
                 } catch (e: Exception) {
-                    // Log error but don't fail the whole operation
                     android.util.Log.e("OrderViewModel", "Failed to load items for order ${order.orderId}", e)
                 }
             }

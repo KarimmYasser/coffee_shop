@@ -126,6 +126,7 @@ class OrderFragment : Fragment() {
                 launch { observeFilteredOrders() }
                 launch { observeLoadingState() }
                 launch { observeErrorState() }
+                launch { observeOrderItems() } // Add this line
             }
         }
     }
@@ -163,6 +164,13 @@ class OrderFragment : Fragment() {
             } else {
                 hideErrorState()
             }
+        }
+    }
+
+    private suspend fun observeOrderItems() {
+        orderViewModel.orderItems.collect {
+            // Notify adapter to refresh order items display
+            ordersAdapter.notifyDataSetChanged()
         }
     }
 
