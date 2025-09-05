@@ -13,11 +13,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.setupWithNavController
 import com.example.cofee_shop.R
 import com.example.cofee_shop.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import dagger.hilt.android.AndroidEntryPoint
+import androidx.core.view.get
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
 
         if (navHostFragment != null) {
             val navController = navHostFragment.navController
-            binding.bottomNav.setupWithNavController(navController)
+            setupBottomNavClickBehavior(navController)
             setupCustomUnderline(navController)
         } else {
             Log.e("MainActivity", "NavHostFragment not found")
@@ -68,6 +68,7 @@ class MainActivity : AppCompatActivity() {
                         else -> 0
                     }
                     addUnderlineToSelectedItem(selectedIndex)
+                    binding.bottomNav.menu[selectedIndex].isChecked = true
                 }
                 else -> {
                     binding.bottomNav.visibility = View.GONE
@@ -76,13 +77,16 @@ class MainActivity : AppCompatActivity() {
         }
 
         addUnderlineToSelectedItem(0)
+        binding.bottomNav.menu[0].isChecked = true
     }
 
     private fun setupBottomNavClickBehavior(navController: NavController) {
         binding.bottomNav.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.homeFragment -> {
-                    navController.popBackStack(R.id.homeFragment, false)
+                    if (navController.currentDestination?.id != R.id.homeFragment) {
+                        navController.navigate(R.id.homeFragment)
+                    }
                     true
                 }
                 R.id.drinkMenuFragment -> {
@@ -133,6 +137,6 @@ class MainActivity : AppCompatActivity() {
             } else {
                 item.background = null
             }
-            }
         }
+    }
 }
