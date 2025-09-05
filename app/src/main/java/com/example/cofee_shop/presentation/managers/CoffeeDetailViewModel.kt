@@ -137,8 +137,7 @@ class CoffeeDetailViewModel @Inject constructor(
                     imageUrl = coffee.image
                 )
 
-                val success =placeOrderUseCase(order, listOf(orderItem))
-
+                placeOrderUseCase(order, listOf(orderItem))
                 // Create the order using the use case
 
 
